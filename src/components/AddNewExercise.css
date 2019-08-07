@@ -2,10 +2,14 @@
   margin: 1em;
   padding-bottom: 1em;
   background-color: white;
-  border-radius: 10px;
+  border-radius: 30px;
 }
 
 .add {
   display: inline;
   margin: 0 1em 1em 1em;
+}
+
+.submit {
+  padding-top: 1em;
 }

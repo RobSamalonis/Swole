@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import ExerciseSelection from "../components/ExerciseSelection";
 import ExerciseResultsTable from "../components/ExerciseResultsTable";
 import { initializeFirebase, fetchFirebase } from "../actions/firebase.action";
 import AddNewExercise from "../components/AddNewExercise";
@@ -8,7 +7,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 
-import "../styles/GetLastWeightPage.css";
+import "./GetLastWeightPage.css";
 
 class GetLastWeightPage extends Component {
   constructor(props) {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import "../styles/ExerciseResultsTable.css";
+import "./ExerciseResultsTable.css";
 
 class ExerciseResultsTable extends Component {
   constructor(props) {

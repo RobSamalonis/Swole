@@ -4,7 +4,7 @@ import { addExercise } from "../actions/firebase.action";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
-import "../styles/AddNewExercise.css";
+import "./AddNewExercise.css";
 
 class AddNewExercise extends Component {
   constructor(props) {
@@ -75,7 +75,7 @@ class AddNewExercise extends Component {
             onChange={this.handleExerciseChange}
             margin="normal"
           />
-
+          <hr />
           {this.state.sets.map((x, y) => (
             <div key={y}>
               <div className="weight">
@@ -117,11 +117,12 @@ class AddNewExercise extends Component {
               -
             </Button>
           </div>
+          <div className="submit">
+            <Button variant="contained" onClick={this.handleSubmit}>
+              Submit
+            </Button>
+          </div>
         </form>
-
-        <Button variant="contained" onClick={this.handleSubmit}>
-          Submit
-        </Button>
       </div>
     );
   }
