@@ -46,7 +46,10 @@ class AddNewExercise extends Component {
   }
 
   handleExerciseChange(event) {
-    this.setState({ exercise: event.target.value });
+    this.setState({
+      exercise:
+        event.target.value.charAt(0).toUpperCase() + event.target.value.slice(1)
+    });
   }
 
   handleSubmit() {
