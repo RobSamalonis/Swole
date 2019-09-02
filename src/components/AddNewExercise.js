@@ -53,8 +53,13 @@ class AddNewExercise extends Component {
   }
 
   handleSubmit() {
-    if (this.props.person === "Who are you?") {
-      alert("Please select a person");
+    if (
+      this.props.person === "Who are you?" ||
+      this.state.exercise === "" ||
+      this.state.sets[0].Weight === "" ||
+      this.state.sets[0].Reps === ""
+    ) {
+      alert("Please fill in all required fields");
     } else {
       this.props.addExercise([
         {

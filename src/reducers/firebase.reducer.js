@@ -65,7 +65,8 @@ export default function articles(state = initialState, action) {
     }
     case ADD_EXERCISE_SUCCESS: {
       return Object.assign({}, state, {
-        isFetching: false
+        isFetching: false,
+        db: action.payload
       });
     }
     case ADD_EXERCISE_ERROR: {

@@ -66,7 +66,7 @@ const addExercise = data => {
       .ref("/")
       .set(filtered)
       .then(() => {
-        dispatch({ type: ADD_EXERCISE_SUCCESS });
+        dispatch({ type: ADD_EXERCISE_SUCCESS, payload: filtered });
         alert("Exercise Added!");
       })
       .catch(error => {
