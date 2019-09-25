@@ -7,6 +7,7 @@ import configureStore from "./configure-store";
 import { Provider } from "react-redux";
 
 const store = configureStore();
+require("dotenv").config();
 
 ReactDOM.render(
   <Provider store={store}>

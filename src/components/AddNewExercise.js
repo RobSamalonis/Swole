@@ -16,17 +16,17 @@ class AddNewExercise extends Component {
     this.handleExerciseChange = this.handleExerciseChange.bind(this);
     this.handlePersonChange = this.handlePersonChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = { exercise: "", sets: [{ Weight: "", Reps: "" }] };
+    this.state = { exercise: props.exercise, sets: [{ Weight: "", Reps: "" }] };
   }
 
   addSet() {
     this.setState({ sets: this.state.sets.concat([{ Weight: "", Reps: "" }]) });
   }
 
-  removeSet() {
-    if (this.state.sets.length > 1) {
-      this.setState({ sets: this.state.sets.slice(0, -1) });
-    }
+  removeSet(index) {
+    const filteredSet = this.state.sets;
+    filteredSet.splice(index, 1);
+    this.setState({ sets: filteredSet });
   }
 
   handleWeightChange(index, event) {
@@ -74,59 +74,62 @@ class AddNewExercise extends Component {
 
   render() {
     return (
-      <div>
+      <div className="addNewExercise">
         <form className="newForm">
-          <TextField
-            id="standard-name"
-            label="Exercise"
-            value={this.state.exercise}
-            onChange={this.handleExerciseChange}
-            margin="normal"
-          />
-          <hr />
           {this.state.sets.map((x, y) => (
             <div key={y}>
-              <div className="weight">
-                <TextField
-                  className="weight"
-                  label={`Weight`}
-                  value={this.state.sets[y].Weight}
-                  onChange={e => this.handleWeightChange(y, e)}
-                  margin="normal"
-                />
-              </div>
               <TextField
                 className="reps"
                 label={`Reps`}
                 value={this.state.sets[y].Reps}
                 onChange={e => this.handleRepChange(y, e)}
                 margin="normal"
+                style={{ paddingRight: "1em" }}
               />
-              <hr />
+              <TextField
+                className="weight"
+                label={`Weight`}
+                value={this.state.sets[y].Weight}
+                onChange={e => this.handleWeightChange(y, e)}
+                margin="normal"
+                style={{ paddingRight: "1em" }}
+              />
+
+              <Button
+                style={{
+                  backgroundColor: "red",
+                  display: "inline",
+                  top: "28px"
+                }}
+                className="add"
+                variant="contained"
+                onClick={() => this.removeSet(y)}
+              >
+                delete
+              </Button>
             </div>
           ))}
 
-          <div className="add">
-            <Button
-              style={{ backgroundColor: "#03DAC6" }}
-              variant="contained"
-              onClick={this.addSet}
-            >
-              +
-            </Button>
-          </div>
-          <div className="add">
-            <Button
-              style={{ backgroundColor: "#03DAC6" }}
-              className="add"
-              variant="contained"
-              onClick={this.removeSet}
-            >
-              -
-            </Button>
-          </div>
+          <Button
+            style={{
+              marginTop: "1em",
+              backgroundColor: "#BB86FC",
+              float: "right"
+            }}
+            variant="contained"
+            onClick={this.addSet}
+          >
+            Add
+          </Button>
+
           <div className="submit">
-            <Button variant="contained" onClick={this.handleSubmit}>
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#BB86FC"
+              }}
+              onClick={this.handleSubmit}
+            >
               Submit
             </Button>
           </div>

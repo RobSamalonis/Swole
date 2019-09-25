@@ -1,3 +1,6 @@
+.lastWeightPage {
+  padding: 1em;
+}
 .selector {
   margin: 25px 0px;
 }
@@ -33,7 +36,7 @@ th {
 }
 
 .exerciseTable tr:nth-child(odd) {
-  background-color: slategray;
+  background-color: rgb(182, 182, 182);
 }
 
 .item {

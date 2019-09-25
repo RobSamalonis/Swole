@@ -1,0 +1,19 @@
+.menu-bar {
+  padding: 0.5em;
+  width: 100%;
+  height: auto;
+  background-color: white;
+  overflow: auto;
+}
+
+.profile-pic {
+  height: 20px;
+  width: 20px;
+  border-radius: 1em;
+  position: relative;
+  top: 3px;
+}
+
+.userName {
+  padding-left: 0.5em;
+}

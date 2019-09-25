@@ -1,8 +1,8 @@
 .newForm {
   margin: 1em;
-  padding-bottom: 1em;
+  padding: 0 0 1em 1em;
   background-color: white;
-  border-radius: 30px;
+  border-radius: 20px;
 }
 
 .add {
