@@ -4,6 +4,7 @@
   height: 100%; /* needs to take the parents height, alternative: body {display: flex} */
   background-color: #6200ee;
   overflow: "auto";
+  padding: 0em 3em 1em 3em;
 }
 
 main {

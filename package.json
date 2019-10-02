@@ -8,6 +8,7 @@
     "dotenv": "^8.1.0",
     "firebase": "^5.9.0",
     "react": "^16.5.2",
+    "react-chartjs-2": "^2.8.0",
     "react-data-grid": "^6.0.2-0",
     "react-dom": "^16.5.2",
     "react-facebook-login": "^4.1.1",

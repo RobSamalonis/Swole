@@ -13,9 +13,10 @@ class ExerciseResultsTable extends Component {
     return (
       <div>
         <table className="exerciseTable">
+          <caption>Last Recorded Weights</caption>
           <thead>
             <tr>
-              <th />
+              <th>Set #</th>
               <th>Weight</th>
               <th>Reps</th>
             </tr>

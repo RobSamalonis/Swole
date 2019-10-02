@@ -3,10 +3,9 @@ import "./App.css";
 
 import Header from "./components/Header";
 import MenuBar from "./components/MenuBar";
-import GetLastWeightPage from "./pages/GetLastWeightPage";
+import GetLastWeightPage from "./views/GetLastWeightPage";
 import { initializeFirebase } from "./actions/firebase.action";
 import { connect } from "react-redux";
-// import Footer from "./components/Footer";
 
 import FacebookLogin from "react-facebook-login";
 
@@ -53,9 +52,6 @@ class App extends Component {
             )}
           </section>
         </main>
-        {/* <div className="footer">
-          <Footer />
-        </div> */}
       </div>
     );
   }

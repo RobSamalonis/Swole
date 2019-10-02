@@ -78,6 +78,7 @@ class AddNewExercise extends Component {
         <form className="newForm">
           {this.state.sets.map((x, y) => (
             <div key={y}>
+              Set {y + 1}
               <TextField
                 className="reps"
                 label={`Reps`}
@@ -94,18 +95,17 @@ class AddNewExercise extends Component {
                 margin="normal"
                 style={{ paddingRight: "1em" }}
               />
-
               <Button
                 style={{
-                  backgroundColor: "red",
                   display: "inline",
-                  top: "28px"
+                  top: "28px",
+                  visibility: this.state.sets.length === 1 && "hidden"
                 }}
                 className="add"
                 variant="contained"
                 onClick={() => this.removeSet(y)}
               >
-                delete
+                X
               </Button>
             </div>
           ))}
