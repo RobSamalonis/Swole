@@ -5,6 +5,9 @@ import { initializeFirebase, fetchFirebase } from "../actions/firebase.action";
 import AddNewExercise from "../components/AddNewExercise";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import Chart from "../components/Chart.js";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 
 import "./GetLastWeightPage.css";
 
@@ -13,6 +16,9 @@ class GetLastWeightPage extends Component {
     super(props);
     const myUser = props.user.name.split(" ");
     let uniq = {};
+    const currentEntries = props.firebase.db.filter(
+      item => item.Person === myUser[0]
+    );
     const arrFiltered = props.firebase.db
       .filter(item => item.Person === myUser[0])
       .filter(obj => !uniq[obj.Exercise] && (uniq[obj.Exercise] = true));
@@ -21,6 +27,7 @@ class GetLastWeightPage extends Component {
     this.state = {
       selectedPerson: myUser[0],
       exercises: [],
+      currentEntries: currentEntries,
       selectedExercises: arrFiltered,
       selectedExerciseName: "Select an Exercise",
       updated: false,
@@ -77,10 +84,26 @@ class GetLastWeightPage extends Component {
             <div className="item">
               {this.state.selectedExercise &&
                 this.state.selectedExerciseName !== "Select an Exercise" && (
-                  <ExerciseResultsTable
-                    exercise={this.state.selectedExercise.LastWeight}
-                    person={this.state.selectedPerson}
-                  />
+                  <Tabs>
+                    <TabList>
+                      <Tab>Last Weight</Tab>
+                      <Tab>Volume Plot</Tab>
+                    </TabList>
+                    <TabPanel>
+                      <ExerciseResultsTable
+                        exercise={this.state.selectedExercise.LastWeight}
+                        person={this.state.selectedPerson}
+                      />
+                    </TabPanel>
+                    <TabPanel>
+                      <Chart
+                        exercise={this.state.currentEntries.filter(
+                          item =>
+                            item.Exercise === this.state.selectedExerciseName
+                        )}
+                      />
+                    </TabPanel>
+                  </Tabs>
                 )}
             </div>
             <div className="item">
