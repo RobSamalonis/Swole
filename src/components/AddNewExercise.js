@@ -80,18 +80,18 @@ class AddNewExercise extends Component {
             <div key={y}>
               Set {y + 1}
               <TextField
-                className="reps"
-                label={`Reps`}
-                value={this.state.sets[y].Reps}
-                onChange={e => this.handleRepChange(y, e)}
-                margin="normal"
-                style={{ paddingRight: "1em" }}
-              />
-              <TextField
                 className="weight"
                 label={`Weight`}
                 value={this.state.sets[y].Weight}
                 onChange={e => this.handleWeightChange(y, e)}
+                margin="normal"
+                style={{ paddingRight: "1em" }}
+              />
+              <TextField
+                className="reps"
+                label={`Reps`}
+                value={this.state.sets[y].Reps}
+                onChange={e => this.handleRepChange(y, e)}
                 margin="normal"
                 style={{ paddingRight: "1em" }}
               />
@@ -113,26 +113,24 @@ class AddNewExercise extends Component {
           <Button
             style={{
               marginTop: "1em",
-              backgroundColor: "#BB86FC",
-              float: "right"
+              backgroundColor: "#BB86FC"
             }}
             variant="contained"
             onClick={this.addSet}
           >
-            Add
+            Add Set
           </Button>
 
-          <div className="submit">
-            <Button
-              variant="contained"
-              style={{
-                backgroundColor: "#BB86FC"
-              }}
-              onClick={this.handleSubmit}
-            >
-              Submit
-            </Button>
-          </div>
+          <Button
+            variant="contained"
+            style={{
+              float: "right",
+              backgroundColor: "#BB86FC"
+            }}
+            onClick={this.handleSubmit}
+          >
+            Submit
+          </Button>
         </form>
       </div>
     );

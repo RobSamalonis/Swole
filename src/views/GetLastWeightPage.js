@@ -23,6 +23,7 @@ class GetLastWeightPage extends Component {
       .filter(item => item.Person === myUser[0])
       .filter(obj => !uniq[obj.Exercise] && (uniq[obj.Exercise] = true));
 
+    arrFiltered.sort((a, b) => (a.Exercise > b.Exercise ? 1 : -1));
     this.changeExercise = this.changeExercise.bind(this);
     this.state = {
       selectedPerson: myUser[0],
@@ -54,6 +55,15 @@ class GetLastWeightPage extends Component {
     }
   }
 
+  getMax = () =>
+    Math.max(
+      ...this.state.currentEntries
+        .filter(item => item.Exercise === this.state.selectedExerciseName)
+        .map(item => item.LastWeight)
+        .flat()
+        .map(item => Number(item.Weight))
+    );
+
   render() {
     return (
       <React.Fragment>
@@ -79,6 +89,13 @@ class GetLastWeightPage extends Component {
                   ))}
                 </Select>
               )}
+              {this.state.selectedExercise &&
+                this.state.selectedExerciseName !== "Select an Exercise" && (
+                  <span className="record">
+                    Personal Record: {this.getMax(this.state.selectedExercise)}{" "}
+                    lbs
+                  </span>
+                )}
             </div>
 
             <div className="item">
@@ -87,7 +104,8 @@ class GetLastWeightPage extends Component {
                   <Tabs>
                     <TabList>
                       <Tab>Last Weight</Tab>
-                      <Tab>Volume Plot</Tab>
+                      <Tab>Plots</Tab>
+                      <Tab>Add</Tab>
                     </TabList>
                     <TabPanel>
                       <ExerciseResultsTable
@@ -103,18 +121,13 @@ class GetLastWeightPage extends Component {
                         )}
                       />
                     </TabPanel>
+                    <TabPanel>
+                      <AddNewExercise
+                        person={this.state.selectedPerson}
+                        exercise={this.state.selectedExerciseName}
+                      />
+                    </TabPanel>
                   </Tabs>
-                )}
-            </div>
-            <div className="item">
-              {this.state.selectedExercise &&
-                this.state.selectedExerciseName !== "Select an Exercise" && (
-                  <React.Fragment>
-                    <AddNewExercise
-                      person={this.state.selectedPerson}
-                      exercise={this.state.selectedExerciseName}
-                    />
-                  </React.Fragment>
                 )}
             </div>
           </div>
