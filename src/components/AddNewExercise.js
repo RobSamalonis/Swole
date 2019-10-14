@@ -124,6 +124,7 @@ class AddNewExercise extends Component {
           <Button
             variant="contained"
             style={{
+              marginTop: "1em",
               float: "right",
               backgroundColor: "#BB86FC"
             }}
