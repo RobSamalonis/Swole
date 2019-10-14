@@ -1,24 +1,14 @@
 import React, { Component } from "react";
 import { Line } from "react-chartjs-2";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
 export default class LinePlot extends Component {
-  constructor(props) {
-    super(props);
-    let arr = [];
-    props.exercise.map((item, i) => arr.push(i + 1));
-    const totalWeights = props.exercise.map(item =>
-      item.LastWeight.map(item => item.Weight * item.Reps).reduce(
-        (acc, currentValue) => {
-          return acc + currentValue;
-        },
-        0
-      )
-    );
-    const data = {
-      labels: arr,
+  getData = (myLabels, myData, myTitle) => {
+    return {
+      labels: myLabels,
       datasets: [
         {
-          label: "Total Weight (lbs)",
+          label: myTitle,
           fill: false,
           lineTension: 0.1,
           backgroundColor: "rgba(75,192,192,0.4)",
@@ -36,18 +26,68 @@ export default class LinePlot extends Component {
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: totalWeights
+          data: myData
         }
       ]
     };
-    this.state = { exercise: props.exercise, data: data };
-  }
+  };
 
+  constructor(props) {
+    super(props);
+    let arr = [];
+    props.exercise.map((item, i) => arr.push(i + 1));
+    const totalWeights = props.exercise.map(item =>
+      item.LastWeight.map(item => item.Weight * item.Reps).reduce(
+        (acc, currentValue) => {
+          return acc + currentValue;
+        },
+        0
+      )
+    );
+    const topWeights = props.exercise.map(item =>
+      Math.max(...item.LastWeight.map(item => item.Weight))
+    );
+
+    const topWeightData = this.getData(arr, topWeights, "Top Set Weight (lbs)");
+    const totalWeightData = this.getData(
+      arr,
+      totalWeights,
+      "Total Weight Lifted (lbs)"
+    );
+
+    this.state = {
+      exercise: props.exercise,
+      totalWeightData,
+      topWeightData,
+      key: Math.random()
+    };
+  }
   render() {
     return (
-      <div>
-        <Line ref="chart" data={this.state.data} />
-      </div>
+      <React.Fragment>
+        <Tabs className="tabs">
+          <TabList>
+            <Tab>Volume</Tab>
+            <Tab>Top Set Weights</Tab>
+          </TabList>
+          <TabPanel>
+            <Line
+              ref="chart"
+              data={this.state.totalWeightData}
+              redraw
+              key={this.state.key}
+            />
+          </TabPanel>
+          <TabPanel>
+            <Line
+              ref="chart"
+              data={this.state.topWeightData}
+              redraw
+              key={this.state.key}
+            />
+          </TabPanel>
+        </Tabs>
+      </React.Fragment>
     );
   }
 }

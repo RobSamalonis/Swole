@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import "./App.css";
 
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import MenuBar from "./components/MenuBar";
 import GetLastWeightPage from "./views/GetLastWeightPage";
 import { initializeFirebase } from "./actions/firebase.action";
 import { connect } from "react-redux";
+import Grid from "@material-ui/core/Grid";
 
 import FacebookLogin from "react-facebook-login";
 
@@ -23,35 +25,35 @@ class App extends Component {
     };
     return (
       <div className="App">
-        <div className="header">
-          <Header />
-        </div>
-        <main>
-          <section className="section">
+        <Grid container>
+          <Grid className="header" item xs={12}>
+            <Header />
+          </Grid>
+          <Grid className="main" style={{ padding: "1em" }} item xs={12}>
             {this.state.user &&
             this.props.firebase &&
             this.props.firebase.db ? (
               <React.Fragment>
                 <MenuBar user={this.state.user} />
-                <div>
-                  <GetLastWeightPage
-                    user={this.state.user}
-                    firebase={this.props.firebase}
-                  />
-                </div>
+
+                <GetLastWeightPage
+                  user={this.state.user}
+                  firebase={this.props.firebase}
+                />
               </React.Fragment>
             ) : (
-              <div className="login">
+              <React.Fragment>
                 <FacebookLogin
                   cssClass="btnFacebook"
                   appId={process.env.REACT_APP_FACEBOOK_APP_ID}
                   fields="name,email,picture"
                   callback={responseFacebook}
                 />
-              </div>
+              </React.Fragment>
             )}
-          </section>
-        </main>
+          </Grid>
+          <Footer />
+        </Grid>
       </div>
     );
   }

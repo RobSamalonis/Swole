@@ -22,7 +22,6 @@ class GetLastWeightPage extends Component {
     const arrFiltered = props.firebase.db
       .filter(item => item.Person === myUser[0])
       .filter(obj => !uniq[obj.Exercise] && (uniq[obj.Exercise] = true));
-
     arrFiltered.sort((a, b) => (a.Exercise > b.Exercise ? 1 : -1));
     this.changeExercise = this.changeExercise.bind(this);
     this.state = {
@@ -33,7 +32,8 @@ class GetLastWeightPage extends Component {
       selectedExerciseName: "Select an Exercise",
       updated: false,
       add: false,
-      firebase: props.firebase
+      firebase: props.firebase,
+      selectedTab: 0
     };
   }
 
@@ -50,7 +50,8 @@ class GetLastWeightPage extends Component {
 
       this.setState({
         selectedExerciseName: thing[0].Exercise,
-        selectedExercise: thing[0]
+        selectedExercise: thing[0],
+        selectedTab: 0
       });
     }
   }
@@ -63,6 +64,12 @@ class GetLastWeightPage extends Component {
         .flat()
         .map(item => Number(item.Weight))
     );
+
+  handleSelect = (index, last) => {
+    this.setState({
+      selectedTab: index
+    });
+  };
 
   render() {
     return (
@@ -101,7 +108,10 @@ class GetLastWeightPage extends Component {
             <div className="item">
               {this.state.selectedExercise &&
                 this.state.selectedExerciseName !== "Select an Exercise" && (
-                  <Tabs>
+                  <Tabs
+                    onSelect={this.handleSelect}
+                    selectedIndex={this.state.selectedTab}
+                  >
                     <TabList>
                       <Tab>Last Weight</Tab>
                       <Tab>Plots</Tab>
@@ -114,12 +124,14 @@ class GetLastWeightPage extends Component {
                       />
                     </TabPanel>
                     <TabPanel>
-                      <Chart
-                        exercise={this.state.currentEntries.filter(
-                          item =>
-                            item.Exercise === this.state.selectedExerciseName
-                        )}
-                      />
+                      {this.state.selectedExerciseName && (
+                        <Chart
+                          exercise={this.state.currentEntries.filter(
+                            item =>
+                              item.Exercise === this.state.selectedExerciseName
+                          )}
+                        />
+                      )}
                     </TabPanel>
                     <TabPanel>
                       <AddNewExercise
