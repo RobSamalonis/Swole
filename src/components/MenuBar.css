@@ -1,9 +1,8 @@
 .menu-bar {
   padding: 0.5em;
-  width: 100%;
   height: auto;
-  background-color: white;
   overflow: auto;
+  background-color: lightgray;
 }
 
 .profile-pic {
@@ -16,4 +15,8 @@
 
 .userName {
   padding-left: 0.5em;
+}
+.menu {
+  float: right;
+  padding-right: 3em;
 }

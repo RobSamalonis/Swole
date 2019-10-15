@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { addExercise } from "../actions/firebase.action";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-
+import Slide from "@material-ui/core/Slide";
 import "./AddNewExercise.css";
 
 class AddNewExercise extends Component {
@@ -61,11 +61,13 @@ class AddNewExercise extends Component {
     ) {
       alert("Please fill in all required fields");
     } else {
+      const x = new Date();
       this.props.addExercise([
         {
           Person: this.props.person,
           Exercise: this.state.exercise,
-          LastWeight: this.state.sets
+          LastWeight: this.state.sets,
+          date: x
         },
         ...this.props.firebase.db
       ]);
@@ -77,37 +79,39 @@ class AddNewExercise extends Component {
       <div className="addNewExercise">
         <form className="newForm">
           {this.state.sets.map((x, y) => (
-            <div key={y}>
-              Set {y + 1}
-              <TextField
-                className="weight"
-                label={`Weight`}
-                value={this.state.sets[y].Weight}
-                onChange={e => this.handleWeightChange(y, e)}
-                margin="normal"
-                style={{ paddingRight: "1em" }}
-              />
-              <TextField
-                className="reps"
-                label={`Reps`}
-                value={this.state.sets[y].Reps}
-                onChange={e => this.handleRepChange(y, e)}
-                margin="normal"
-                style={{ paddingRight: "1em" }}
-              />
-              <Button
-                style={{
-                  display: "inline",
-                  top: "28px",
-                  visibility: this.state.sets.length === 1 && "hidden"
-                }}
-                className="add"
-                variant="contained"
-                onClick={() => this.removeSet(y)}
-              >
-                X
-              </Button>
-            </div>
+            <Slide direction="right" in={true} key={y}>
+              <div>
+                Set {y + 1}
+                <TextField
+                  className="weight"
+                  label={`Weight`}
+                  value={this.state.sets[y].Weight}
+                  onChange={e => this.handleWeightChange(y, e)}
+                  margin="normal"
+                  style={{ paddingRight: "1em" }}
+                />
+                <TextField
+                  className="reps"
+                  label={`Reps`}
+                  value={this.state.sets[y].Reps}
+                  onChange={e => this.handleRepChange(y, e)}
+                  margin="normal"
+                  style={{ paddingRight: "1em" }}
+                />
+                <Button
+                  style={{
+                    display: "inline",
+                    top: "28px",
+                    visibility: this.state.sets.length === 1 && "hidden"
+                  }}
+                  className="add"
+                  variant="contained"
+                  onClick={() => this.removeSet(y)}
+                >
+                  X
+                </Button>
+              </div>
+            </Slide>
           ))}
 
           <Button

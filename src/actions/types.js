@@ -10,3 +10,8 @@ export const CLEAR_FIREBASE = "CLEAR_FIREBASE";
 export const ADD_EXERCISE = "ADD_EXERCISE";
 export const ADD_EXERCISE_SUCCESS = "ADD_EXERCISE_SUCCESS";
 export const ADD_EXERCISE_ERROR = "ADD_EXERCISE_ERROR";
+
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
+
+export const CHANGE_ROUTE = "CHANGE_ROUTE";

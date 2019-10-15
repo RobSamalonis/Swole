@@ -9,13 +9,28 @@ import {
   CLEAR_FIREBASE,
   ADD_EXERCISE,
   ADD_EXERCISE_SUCCESS,
-  ADD_EXERCISE_ERROR
+  ADD_EXERCISE_ERROR,
+  LOGOUT,
+  LOGIN,
+  CHANGE_ROUTE
 } from "./types";
 
 var config = {
   apiKey: "AIzaSyCctPILOFiuVRIJATTzUlDYeXWICabeGpg",
   authDomain: "swole-1190b.firebaseapp.com",
   databaseURL: "https://swole-1190b.firebaseio.com"
+};
+
+const changeRoute = route => {
+  return dispatch => dispatch({ type: CHANGE_ROUTE, payload: route });
+};
+
+const login = user => {
+  return dispatch => dispatch({ type: LOGIN, payload: user });
+};
+
+const logout = () => {
+  return dispatch => dispatch({ type: LOGOUT });
 };
 
 const initializeFirebase = () => {
@@ -75,4 +90,12 @@ const addExercise = data => {
   };
 };
 
-export { initializeFirebase, fetchFirebase, clearFirebase, addExercise };
+export {
+  initializeFirebase,
+  fetchFirebase,
+  clearFirebase,
+  addExercise,
+  logout,
+  login,
+  changeRoute
+};

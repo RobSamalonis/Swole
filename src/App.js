@@ -5,7 +5,11 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import MenuBar from "./components/MenuBar";
 import GetLastWeightPage from "./views/GetLastWeightPage";
-import { initializeFirebase } from "./actions/firebase.action";
+import {
+  initializeFirebase,
+  login,
+  changeRoute
+} from "./actions/firebase.action";
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 
@@ -15,13 +19,12 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.props.initializeFirebase();
-    this.state = {
-      user: null
-    };
   }
+
   render() {
     const responseFacebook = response => {
-      this.setState({ user: response });
+      console.log(response);
+      this.props.login(response);
     };
     return (
       <div className="App">
@@ -30,16 +33,20 @@ class App extends Component {
             <Header />
           </Grid>
           <Grid className="main" style={{ padding: "1em" }} item xs={12}>
-            {this.state.user &&
+            {this.props.firebase.user &&
             this.props.firebase &&
             this.props.firebase.db ? (
               <React.Fragment>
-                <MenuBar user={this.state.user} />
+                <MenuBar user={this.props.firebase.user} />
 
-                <GetLastWeightPage
-                  user={this.state.user}
-                  firebase={this.props.firebase}
-                />
+                {(this.props.firebase.route === "Home" ||
+                  !this.props.firebase.route) && (
+                  <GetLastWeightPage
+                    user={this.props.firebase.user}
+                    firebase={this.props.firebase}
+                  />
+                )}
+                {this.props.firebase.route === "Profile" && <h1>My Profile</h1>}
               </React.Fragment>
             ) : (
               <React.Fragment>
@@ -62,7 +69,7 @@ const mapStateToProps = state => ({ ...state });
 
 export default connect(
   mapStateToProps,
-  { initializeFirebase }
+  { initializeFirebase, login, changeRoute }
 )(App);
 
 export { App };

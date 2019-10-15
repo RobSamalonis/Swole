@@ -8,7 +8,10 @@ import {
   CLEAR_FIREBASE,
   ADD_EXERCISE,
   ADD_EXERCISE_SUCCESS,
-  ADD_EXERCISE_ERROR
+  ADD_EXERCISE_ERROR,
+  LOGIN,
+  LOGOUT,
+  CHANGE_ROUTE
 } from "../actions/types";
 
 const initialState = { isFetching: false };
@@ -72,6 +75,24 @@ export default function articles(state = initialState, action) {
     case ADD_EXERCISE_ERROR: {
       return Object.assign({}, state, {
         isFetching: false
+      });
+    }
+    case LOGIN: {
+      return Object.assign({}, state, {
+        isFetching: false,
+        user: action.payload
+      });
+    }
+    case LOGOUT: {
+      return Object.assign({}, state, {
+        isFetching: false,
+        user: null
+      });
+    }
+    case CHANGE_ROUTE: {
+      return Object.assign({}, state, {
+        isFetching: false,
+        route: action.payload
       });
     }
     default:

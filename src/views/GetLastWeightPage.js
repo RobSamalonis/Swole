@@ -76,6 +76,7 @@ class GetLastWeightPage extends Component {
       <React.Fragment>
         {this.state.firebase && this.state.firebase.users && (
           <div className="lastWeightPage">
+            <h1>Home</h1>
             <div className="item">
               {this.state.selectedPerson && this.state.selectedExercises && (
                 <Select

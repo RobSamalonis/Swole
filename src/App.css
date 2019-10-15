@@ -32,8 +32,7 @@
 }
 
 .btnFacebook {
-  width: 165px;
-  height: 35px;
+  padding: 1em;
   border-radius: 4px;
   background: #3b5998;
   color: white;
