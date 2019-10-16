@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Line } from "react-chartjs-2";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
 import "./Chart.css";
 
@@ -57,38 +58,54 @@ export default class LinePlot extends Component {
       "Total Weight Lifted (lbs)"
     );
 
+    this.changeChartType = this.changeChartType.bind(this);
+
     this.state = {
       exercise: props.exercise,
       totalWeightData,
       topWeightData,
-      key: Math.random()
+      key: Math.random(),
+      chartType: "Volume"
     };
   }
+  changeChartType = event => {
+    this.setState({
+      chartType: event.target.value
+    });
+  };
   render() {
     return (
       <React.Fragment>
-        <Tabs>
-          <TabList>
-            <Tab>Volume</Tab>
-            <Tab>Top Set Weights</Tab>
-          </TabList>
-          <TabPanel>
-            <Line
-              ref="chart"
-              data={this.state.totalWeightData}
-              redraw
-              key={this.state.key}
-            />
-          </TabPanel>
-          <TabPanel>
-            <Line
-              ref="chart"
-              data={this.state.topWeightData}
-              redraw
-              key={this.state.key}
-            />
-          </TabPanel>
-        </Tabs>
+        <Select
+          value={this.state.chartType}
+          onChange={this.changeChartType}
+          style={{ backgroundColor: "white", float: "right" }}
+        >
+          <MenuItem key={"Volume"} value={"Volume"}>
+            Volume
+          </MenuItem>
+          <MenuItem key={"Top Set Weights"} value={"Top Set Weights"}>
+            Top Set Weights
+          </MenuItem>
+        </Select>
+
+        {this.state.chartType === "Volume" && (
+          <Line
+            ref="chart"
+            data={this.state.totalWeightData}
+            redraw
+            key={this.state.key}
+          />
+        )}
+
+        {this.state.chartType === "Top Set Weights" && (
+          <Line
+            ref="chart"
+            data={this.state.topWeightData}
+            redraw
+            key={this.state.key + 1}
+          />
+        )}
       </React.Fragment>
     );
   }
