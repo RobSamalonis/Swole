@@ -2,7 +2,8 @@
   padding: 0.5em;
   height: auto;
   overflow: auto;
-  background-color: lightgray;
+  background-color: #363f4f;
+  color: white;
 }
 
 .profile-pic {
@@ -18,5 +19,9 @@
 }
 .menu {
   float: right;
-  padding-right: 3em;
+  margin-right: 3em;
+}
+
+.menu-bar .MuiButton-label-99 {
+  color: white;
 }

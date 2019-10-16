@@ -12,7 +12,7 @@ import {
 } from "./actions/firebase.action";
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
-
+import Profile from "./components/Profile";
 import FacebookLogin from "react-facebook-login";
 
 class App extends Component {
@@ -23,12 +23,11 @@ class App extends Component {
 
   render() {
     const responseFacebook = response => {
-      console.log(response);
       this.props.login(response);
     };
     return (
       <div className="App">
-        <Grid container>
+        <Grid className="grid" container>
           <Grid className="header" item xs={12}>
             <Header />
           </Grid>
@@ -36,7 +35,7 @@ class App extends Component {
             {this.props.firebase.user &&
             this.props.firebase &&
             this.props.firebase.db ? (
-              <React.Fragment>
+              <div className="menu-main">
                 <MenuBar user={this.props.firebase.user} />
 
                 {(this.props.firebase.route === "Home" ||
@@ -46,10 +45,11 @@ class App extends Component {
                     firebase={this.props.firebase}
                   />
                 )}
-                {this.props.firebase.route === "Profile" && <h1>My Profile</h1>}
-              </React.Fragment>
+                {this.props.firebase.route === "Profile" && <Profile />}
+              </div>
             ) : (
               <React.Fragment>
+                <span>Please login to Continue: </span>
                 <FacebookLogin
                   cssClass="btnFacebook"
                   appId={process.env.REACT_APP_FACEBOOK_APP_ID}

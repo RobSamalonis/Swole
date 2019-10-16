@@ -15,12 +15,17 @@
   background: white;
 }
 
-.footer {
-  background-color: #dcdcdc;
+.grid {
+  border: 1px solid;
 }
 
-.header {
-  background: black;
+.menu-main {
+  border: 1px solid;
+  box-shadow: 5px 10px #6200ee;
+}
+
+.footer {
+  background-color: #dcdcdc;
 }
 
 .login {
@@ -44,4 +49,8 @@
 .btnFacebook:hover {
   background: #3b5998;
   opacity: 0.6;
+}
+
+.login-view {
+  padding: 1em;
 }

@@ -29,7 +29,9 @@ export default function MyMenu(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={() => props.changeRoute("Home")}>Home</MenuItem>
+        <MenuItem onClick={() => props.changeRoute("Home")}>
+          Fitness Tracker
+        </MenuItem>
         <MenuItem onClick={() => props.changeRoute("Profile")}>
           My Profile
         </MenuItem>

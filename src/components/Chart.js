@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Line } from "react-chartjs-2";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
+import "./Chart.css";
+
 export default class LinePlot extends Component {
   getData = (myLabels, myData, myTitle) => {
     return {
@@ -65,7 +67,7 @@ export default class LinePlot extends Component {
   render() {
     return (
       <React.Fragment>
-        <Tabs className="tabs">
+        <Tabs>
           <TabList>
             <Tab>Volume</Tab>
             <Tab>Top Set Weights</Tab>
