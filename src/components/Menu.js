@@ -2,8 +2,16 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(theme => ({
+  menuButton: {
+    color: "white"
+  }
+}));
 
 export default function MyMenu(props) {
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -16,6 +24,7 @@ export default function MyMenu(props) {
   return (
     <div>
       <Button
+        className={classes.menuButton}
         aria-controls="simple-menu"
         aria-haspopup="true"
         onClick={handleClick}

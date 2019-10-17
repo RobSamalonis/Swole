@@ -21,7 +21,6 @@
 
 .menu-main {
   border: 1px solid;
-  box-shadow: 5px 10px #6200ee;
 }
 
 .footer {
@@ -43,7 +42,6 @@
   color: white;
   border: 0px transparent;
   text-align: center;
-  display: inline-block;
 }
 
 .btnFacebook:hover {
@@ -51,6 +49,20 @@
   opacity: 0.6;
 }
 
-.login-view {
-  padding: 1em;
+.paper {
+  background-color: white;
+  border: 2px solid #000;
+  position: absolute;
+  padding: 3em;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.login-please {
+  padding: 2.5em 0 2.5em 0;
+}
+
+.login-please:hover {
+  background-color: lightgray;
 }

@@ -19,9 +19,9 @@
 }
 .menu {
   float: right;
-  margin-right: 3em;
+  margin-right: 2em;
 }
 
-.menu-bar .MuiButton-label-99 {
+.menu-button {
   color: white;
 }

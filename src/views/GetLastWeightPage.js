@@ -100,8 +100,7 @@ class GetLastWeightPage extends Component {
               {this.state.selectedExercise &&
                 this.state.selectedExerciseName !== "Select an Exercise" && (
                   <span className="record">
-                    Personal Record: {this.getMax(this.state.selectedExercise)}{" "}
-                    lbs
+                    PR: {this.getMax(this.state.selectedExercise)} lbs
                   </span>
                 )}
             </div>

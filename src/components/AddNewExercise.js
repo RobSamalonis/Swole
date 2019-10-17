@@ -80,8 +80,16 @@ class AddNewExercise extends Component {
         <form className="newForm">
           {this.state.sets.map((x, y) => (
             <Slide direction="right" in={true} key={y}>
-              <div>
-                Set {y + 1}
+              <div className="set-item">
+                Set #{y + 1}{" "}
+                <i
+                  style={{
+                    display: "inline",
+                    visibility: this.state.sets.length === 1 && "hidden"
+                  }}
+                  onClick={() => this.removeSet(y)}
+                  className="far fa-trash-alt"
+                ></i>
                 <TextField
                   className="weight"
                   label={`Weight`}
@@ -98,18 +106,6 @@ class AddNewExercise extends Component {
                   margin="normal"
                   style={{ paddingRight: "1em" }}
                 />
-                <Button
-                  style={{
-                    display: "inline",
-                    top: "28px",
-                    visibility: this.state.sets.length === 1 && "hidden"
-                  }}
-                  className="add"
-                  variant="contained"
-                  onClick={() => this.removeSet(y)}
-                >
-                  X
-                </Button>
               </div>
             </Slide>
           ))}
@@ -122,6 +118,7 @@ class AddNewExercise extends Component {
             }}
             variant="contained"
             onClick={this.addSet}
+            className="add-button"
           >
             Add Set
           </Button>
@@ -135,6 +132,7 @@ class AddNewExercise extends Component {
               backgroundColor: "#BB86FC"
             }}
             onClick={this.handleSubmit}
+            className="submit-button"
           >
             Submit
           </Button>
