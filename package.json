@@ -13,6 +13,7 @@
     "react-dom": "^16.10.2",
     "react-facebook-login": "^4.1.1",
     "react-google-login": "^5.0.5",
+    "react-hot-loader": "^4.12.15",
     "react-redux": "^6.0.1",
     "react-scripts": "1.1.5",
     "react-spreadsheet-grid": "^1.4.3",

@@ -37,8 +37,9 @@ export default class LinePlot extends Component {
 
   constructor(props) {
     super(props);
-    let arr = [];
-    props.exercise.map((item, i) => arr.push(i + 1));
+
+    const arr = props.exercise.map((item, i) => i + 1);
+
     const totalWeights = props.exercise.map(item =>
       item.LastWeight.map(item => item.Weight * item.Reps).reduce(
         (acc, currentValue) => {
@@ -47,6 +48,16 @@ export default class LinePlot extends Component {
         0
       )
     );
+    const averageWeights = totalWeights.map((item, i) => {
+      const totalSets = props.exercise[i].LastWeight.reduce(
+        (acc, currentValue) => {
+          return acc + Number(currentValue.Reps);
+        },
+        0
+      );
+      return (item / totalSets).toFixed(0);
+    });
+
     const topWeights = props.exercise.map(item =>
       Math.max(...item.LastWeight.map(item => item.Weight))
     );
@@ -58,12 +69,19 @@ export default class LinePlot extends Component {
       "Total Weight Lifted (lbs)"
     );
 
+    const averageWeightData = this.getData(
+      arr,
+      averageWeights,
+      "Average Weight Lifted (lbs)"
+    );
+
     this.changeChartType = this.changeChartType.bind(this);
 
     this.state = {
       exercise: props.exercise,
       totalWeightData,
       topWeightData,
+      averageWeightData,
       key: Math.random(),
       chartType: "Volume"
     };
@@ -87,6 +105,9 @@ export default class LinePlot extends Component {
           <MenuItem key={"Top Set Weights"} value={"Top Set Weights"}>
             Top Set Weights
           </MenuItem>
+          <MenuItem key={"Average Set Weights"} value={"Average Set Weights"}>
+            Average Set Weights
+          </MenuItem>
         </Select>
 
         {this.state.chartType === "Volume" && (
@@ -103,7 +124,16 @@ export default class LinePlot extends Component {
             ref="chart"
             data={this.state.topWeightData}
             redraw
-            key={this.state.key + 1}
+            key={this.state.key + 100}
+          />
+        )}
+
+        {this.state.chartType === "Average Set Weights" && (
+          <Line
+            ref="chart"
+            data={this.state.averageWeightData}
+            redraw
+            key={this.state.key + 200}
           />
         )}
       </React.Fragment>
