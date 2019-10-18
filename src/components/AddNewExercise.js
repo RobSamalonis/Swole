@@ -81,15 +81,17 @@ class AddNewExercise extends Component {
           {this.state.sets.map((x, y) => (
             <Slide direction="right" in={true} key={y}>
               <div className="set-item">
-                Set #{y + 1}{" "}
-                <i
-                  style={{
-                    display: "inline",
-                    visibility: this.state.sets.length === 1 && "hidden"
-                  }}
-                  onClick={() => this.removeSet(y)}
-                  className="far fa-trash-alt"
-                ></i>
+                <div>
+                  Set #{y + 1}{" "}
+                  <i
+                    style={{
+                      display: "inline",
+                      visibility: this.state.sets.length === 1 && "hidden"
+                    }}
+                    onClick={() => this.removeSet(y)}
+                    className="far fa-trash-alt"
+                  ></i>
+                </div>
                 <TextField
                   className="weight"
                   label={`Weight`}
@@ -106,6 +108,7 @@ class AddNewExercise extends Component {
                   margin="normal"
                   style={{ paddingRight: "1em" }}
                 />
+                <hr />
               </div>
             </Slide>
           ))}
