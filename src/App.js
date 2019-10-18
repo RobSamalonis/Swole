@@ -3,7 +3,6 @@ import "./App.css";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import MenuBar from "./components/MenuBar";
 import Profile from "./components/Profile";
 import GetLastWeightPage from "./views/GetLastWeightPage";
 import {
@@ -73,25 +72,21 @@ class App extends Component {
         </Modal>
         <Grid className="grid" container>
           <Grid className="header" item xs={12}>
-            <Header />
+            <Header firebase={this.props.firebase} />
           </Grid>
           <Grid className="main" style={{ padding: "1em" }} item xs={12}>
-            {this.props.firebase.user &&
-              this.props.firebase &&
-              this.props.firebase.db && (
-                <div className="menu-main">
-                  <MenuBar user={this.props.firebase.user} />
-
-                  {(this.props.firebase.route === "Home" ||
-                    !this.props.firebase.route) && (
-                    <GetLastWeightPage
-                      user={this.props.firebase.user}
-                      firebase={this.props.firebase}
-                    />
-                  )}
-                  {this.props.firebase.route === "Profile" && <Profile />}
-                </div>
-              )}
+            {this.props.firebase.user && this.props.firebase.db && (
+              <div className="menu-main">
+                {(this.props.firebase.route === "Home" ||
+                  !this.props.firebase.route) && (
+                  <GetLastWeightPage
+                    user={this.props.firebase.user}
+                    firebase={this.props.firebase}
+                  />
+                )}
+                {this.props.firebase.route === "Profile" && <Profile />}
+              </div>
+            )}
             {!this.props.firebase.user && (
               <h3 onClick={this.handleOpen} className="login-please">
                 Login to get Swole <i className="fab fa-angellist"></i>

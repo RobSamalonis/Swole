@@ -14,18 +14,18 @@ class MenuBar extends Component {
   render() {
     return (
       <div className="menu-bar">
-        <img
-          className="profile-pic"
-          alt="profile-pic"
-          src={this.state.user.picture.data.url}
-        />
-        <span className="userName">{this.state.user.name}</span>
         <div className="menu">
           <Menu
             logout={this.props.logout}
             changeRoute={this.props.changeRoute}
           />
         </div>
+        <span className="userName">{this.state.user.name.split(" ")[0]}</span>
+        <img
+          className="profile-pic"
+          alt="profile-pic"
+          src={this.state.user.picture.data.url}
+        />
       </div>
     );
   }

@@ -1,27 +1,27 @@
 .menu-bar {
-  padding: 0.5em;
-  height: auto;
-  overflow: auto;
-  background-color: #363f4f;
   color: white;
 }
 
 .profile-pic {
+  float: right;
   height: 20px;
   width: 20px;
   border-radius: 1em;
   position: relative;
-  top: 3px;
+  top: 34px;
 }
 
 .userName {
+  position: relative;
+  top: 38px;
+  float: right;
   padding-left: 0.5em;
+  padding-right: 1em;
+  font-size: 10pt;
 }
 .menu {
+  position: relative;
+  top: 21px;
   float: right;
-  margin-right: 2em;
-}
-
-.menu-button {
-  color: white;
+  margin-right: 1em;
 }
