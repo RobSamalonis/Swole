@@ -19,16 +19,22 @@ class GetLastWeightPage extends Component {
     const currentEntries = props.firebase.db.filter(
       item => item.Person === myUser[0]
     );
-    const arrFiltered = props.firebase.db
-      .filter(item => item.Person === myUser[0])
-      .filter(obj => !uniq[obj.Exercise] && (uniq[obj.Exercise] = true));
-    arrFiltered.sort((a, b) => (a.Exercise > b.Exercise ? 1 : -1));
+    const arrFilteredForPerson = props.firebase.db.filter(
+      item => item.Person === myUser[0]
+    );
+
+    const arrFilteredForExercise = arrFilteredForPerson.filter(
+      obj => !uniq[obj.Exercise] && (uniq[obj.Exercise] = true)
+    );
+
+    arrFilteredForExercise.sort((a, b) => (a.Exercise > b.Exercise ? 1 : -1));
     this.changeExercise = this.changeExercise.bind(this);
     this.state = {
       selectedPerson: myUser[0],
       exercises: [],
+      allExercises: arrFilteredForPerson,
       currentEntries: currentEntries,
-      selectedExercises: arrFiltered,
+      selectedExercises: arrFilteredForExercise,
       selectedExerciseName: "Select an Exercise",
       updated: false,
       add: false,
@@ -44,13 +50,17 @@ class GetLastWeightPage extends Component {
         selectedExercise: null
       });
     } else {
-      const thing = this.state.selectedExercises.filter(
+      const prevExercises = this.state.allExercises.filter(
+        item => item.Exercise === event.target.value
+      );
+      const myExercises = this.state.selectedExercises.filter(
         item => item.Exercise === event.target.value
       );
 
       this.setState({
-        selectedExerciseName: thing[0].Exercise,
-        selectedExercise: thing[0],
+        allCurrentExercises: prevExercises,
+        selectedExerciseName: myExercises[0].Exercise,
+        selectedExercise: myExercises[0],
         selectedTab: 0
       });
     }
@@ -112,14 +122,13 @@ class GetLastWeightPage extends Component {
                     selectedIndex={this.state.selectedTab}
                   >
                     <TabList>
-                      <Tab>Last Weight</Tab>
+                      <Tab>Weight Chart</Tab>
                       <Tab>Plots</Tab>
                       <Tab>Add</Tab>
                     </TabList>
                     <TabPanel>
                       <ExerciseResultsTable
-                        exercise={this.state.selectedExercise.LastWeight}
-                        person={this.state.selectedPerson}
+                        allCurrentExercises={this.state.allCurrentExercises}
                       />
                     </TabPanel>
                     <TabPanel>
