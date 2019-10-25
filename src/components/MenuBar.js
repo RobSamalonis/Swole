@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { logout } from "../actions/auth.action";
 import { changeRoute } from "../actions/router.action";
+import { logout } from "../actions/auth.action";
+
 import Menu from "./Menu";
 
 import "./MenuBar.css";

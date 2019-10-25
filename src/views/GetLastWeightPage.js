@@ -1,12 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import ExerciseResultsTable from "../components/ExerciseResultsTable";
-import { initializeFirebase, fetchFirebase } from "../actions/firebase.action";
+
 import AddNewExercise from "../components/AddNewExercise";
+import Chart from "../components/Chart.js";
+import ExerciseResultsTable from "../components/ExerciseResultsTable";
+
+import { initializeFirebase, fetchFirebase } from "../actions/firebase.action";
+
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import Chart from "../components/Chart.js";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
 import "react-tabs/style/react-tabs.css";
 import "./GetLastWeightPage.css";
@@ -36,7 +42,7 @@ class GetLastWeightPage extends Component {
       allExercises: arrFilteredForPerson,
       currentEntries: currentEntries,
       selectedExercises: arrFilteredForExercise,
-      selectedExerciseName: "Select an Exercise",
+      selectedExerciseName: null,
       selectedTab: 0
     };
   }
@@ -83,22 +89,20 @@ class GetLastWeightPage extends Component {
     return (
       <div className="lastWeightPage">
         <div className="item">
-          {this.state.user && this.state.selectedExercises && (
+          <FormControl>
+            <InputLabel>Exercise</InputLabel>
             <Select
               value={this.state.selectedExerciseName}
               onChange={this.changeExercise}
-              style={{ backgroundColor: "white" }}
+              style={{ minWidth: 120 }}
             >
-              <MenuItem key={"Select an Exercise"} value={"Select an Exercise"}>
-                {"Select an Exercise"}
-              </MenuItem>
               {this.state.selectedExercises.map((item, i) => (
                 <MenuItem key={i} value={item.Exercise}>
                   {item.Exercise}
                 </MenuItem>
               ))}
             </Select>
-          )}
+          </FormControl>
           {this.state.selectedExercise &&
             this.state.selectedExerciseName !== "Select an Exercise" && (
               <span className="record">

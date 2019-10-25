@@ -1,21 +1,22 @@
 import React, { Component } from "react";
-import "./App.css";
+import { connect } from "react-redux";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Profile from "./components/Profile";
 import GetLastWeightPage from "./views/GetLastWeightPage";
+import { changeRoute } from "./actions/router.action";
 import { initializeFirebase } from "./actions/firebase.action";
 import { login } from "./actions/auth.action";
-import { changeRoute } from "./actions/router.action";
-import { connect } from "react-redux";
 
 import FacebookLogin from "react-facebook-login";
 
-import Grid from "@material-ui/core/Grid";
-import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
+import Grid from "@material-ui/core/Grid";
+import Modal from "@material-ui/core/Modal";
+
+import "./App.css";
 
 class App extends Component {
   constructor(props) {

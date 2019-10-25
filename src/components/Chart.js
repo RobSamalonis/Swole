@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+
 import { Line } from "react-chartjs-2";
+
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
@@ -83,7 +85,7 @@ export default class LinePlot extends Component {
       topWeightData,
       averageWeightData,
       key: Math.random(),
-      chartType: "Volume"
+      chartType: "Average Set Weights"
     };
   }
   changeChartType = event => {
@@ -99,14 +101,14 @@ export default class LinePlot extends Component {
           onChange={this.changeChartType}
           style={{ backgroundColor: "white", float: "right" }}
         >
-          <MenuItem key={"Volume"} value={"Volume"}>
-            Volume
+          <MenuItem key={"Average Set Weights"} value={"Average Set Weights"}>
+            Average Set Weights
           </MenuItem>
           <MenuItem key={"Top Set Weights"} value={"Top Set Weights"}>
             Top Set Weights
           </MenuItem>
-          <MenuItem key={"Average Set Weights"} value={"Average Set Weights"}>
-            Average Set Weights
+          <MenuItem key={"Volume"} value={"Volume"}>
+            Volume
           </MenuItem>
         </Select>
 

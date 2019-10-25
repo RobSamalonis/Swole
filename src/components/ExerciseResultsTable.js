@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 
 import "./ExerciseResultsTable.css";
 
@@ -45,18 +47,20 @@ class ExerciseResultsTable extends Component {
   render() {
     return (
       <div>
-        <Select
-          value={this.state.selectedExerciseIndex}
-          onChange={this.changeExercise}
-          style={{ backgroundColor: "white", float: "right" }}
-        >
-          {this.props.allCurrentExercises.map((item, i) => (
-            <MenuItem key={i} value={i}>
-              {i + 1}
-            </MenuItem>
-          ))}
-        </Select>
-
+        <FormControl style={{ float: "right" }}>
+          <Select
+            value={this.state.selectedExerciseIndex}
+            onChange={this.changeExercise}
+            styles={{ minWidth: 80 }}
+          >
+            {this.props.allCurrentExercises.map((item, i) => (
+              <MenuItem key={i} value={i}>
+                {i + 1}
+              </MenuItem>
+            ))}
+          </Select>
+          <FormHelperText>Entries</FormHelperText>
+        </FormControl>
         <Table className="my-table" ria-label="spanning table">
           <TableHead>
             <TableRow>

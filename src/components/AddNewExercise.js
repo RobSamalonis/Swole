@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+
 import { addExercise } from "../actions/firebase.action";
+
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
+
 import "./AddNewExercise.css";
 
 class AddNewExercise extends Component {
@@ -13,8 +16,6 @@ class AddNewExercise extends Component {
     this.removeSet = this.removeSet.bind(this);
     this.handleWeightChange = this.handleWeightChange.bind(this);
     this.handleRepChange = this.handleRepChange.bind(this);
-    this.handleExerciseChange = this.handleExerciseChange.bind(this);
-    this.handlePersonChange = this.handlePersonChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = { exercise: props.exercise, sets: [{ Weight: "", Reps: "" }] };
   }
@@ -41,17 +42,6 @@ class AddNewExercise extends Component {
     this.setState({ sets: newArray });
   }
 
-  handlePersonChange(event) {
-    this.setState({ Person: event.target.value });
-  }
-
-  handleExerciseChange(event) {
-    this.setState({
-      exercise:
-        event.target.value.charAt(0).toUpperCase() + event.target.value.slice(1)
-    });
-  }
-
   handleSubmit() {
     if (
       this.props.person === "Who are you?" ||
@@ -59,7 +49,7 @@ class AddNewExercise extends Component {
       this.state.sets[0].Weight === "" ||
       this.state.sets[0].Reps === ""
     ) {
-      alert("Please fill in all required fields");
+      alert("Please fill in all required fields.");
     } else {
       const x = new Date();
       this.props.addExercise([
@@ -82,9 +72,10 @@ class AddNewExercise extends Component {
             <Slide direction="right" in={true} key={y}>
               <div className="set-item">
                 <div>
-                  Set #{y + 1}{" "}
+                  Set #{y + 1}
                   <i
                     style={{
+                      float: "right",
                       display: "inline",
                       visibility: this.state.sets.length === 1 && "hidden"
                     }}

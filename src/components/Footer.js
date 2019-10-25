@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import Grid from "@material-ui/core/Grid";
 
 import packageJson from "../../package.json";
+
+import Grid from "@material-ui/core/Grid";
+
 import "./Footer.css";
 
 class Footer extends Component {
