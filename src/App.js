@@ -44,9 +44,15 @@ class App extends Component {
           <Fade in={!this.props.auth.user}>
             <div className="paper">
               <div>
-                <h3>Welcome to Swole!</h3>
+                <h3>Welcome!</h3>
               </div>
-              <p>Login with a provider to continue.</p>
+              <p>
+                Login to get{" "}
+                <b>
+                  <i>Swole</i>
+                </b>
+                .
+              </p>
 
               <FacebookLogin
                 cssClass="btnFacebook"
@@ -58,31 +64,28 @@ class App extends Component {
             </div>
           </Fade>
         </Modal>
-        <Grid className="grid" container>
-          <Grid className="header" item xs={12}>
-            <Header />
-          </Grid>
-          <Grid className="main" style={{ padding: "1em" }} item xs={12}>
-            {this.props.auth && this.props.auth.user && (
-              <div className="menu-main">
-                {(this.props.router.route === "Home" ||
-                  !this.props.router.route) && (
-                  <GetLastWeightPage
-                    user={this.props.auth.user}
-                    firebase={this.props.firebase}
-                  />
-                )}
-                {this.props.router.route === "Profile" && <Profile />}
-              </div>
-            )}
-            {!this.props.auth.user && (
-              <h3 onClick={this.handleOpen} className="login-please">
-                Login to get Swole <i className="fab fa-angellist"></i>
-              </h3>
-            )}
-          </Grid>
-          <Footer />
-        </Grid>
+        {this.props.auth && this.props.firebase && this.props.auth.user && (
+          <Fade in={!!this.props.auth.user}>
+            <Grid className="grid" container>
+              <Grid className="header" item xs={12}>
+                <Header />
+              </Grid>
+              <Grid className="main" style={{ padding: "1em" }} item xs={12}>
+                <div className="menu-main">
+                  {(this.props.router.route === "Home" ||
+                    !this.props.router.route) && (
+                    <GetLastWeightPage
+                      user={this.props.auth.user}
+                      firebase={this.props.firebase}
+                    />
+                  )}
+                  {this.props.router.route === "Profile" && <Profile />}
+                </div>
+              </Grid>
+              <Footer />
+            </Grid>
+          </Fade>
+        )}
       </div>
     );
   }

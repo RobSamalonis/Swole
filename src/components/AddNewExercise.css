@@ -1,11 +1,5 @@
-.addNewExercise {
+.add-new-exercise {
   padding-top: 1em;
-}
-
-.newForm {
-  padding: 0 0 0 1em;
-  background-color: white;
-  border-radius: 20px;
 }
 
 .add-button:hover,

@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 
 import { addExercise } from "../actions/firebase.action";
 
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
+import TextField from "@material-ui/core/TextField";
 
 import "./AddNewExercise.css";
 
@@ -17,7 +17,7 @@ class AddNewExercise extends Component {
     this.handleWeightChange = this.handleWeightChange.bind(this);
     this.handleRepChange = this.handleRepChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = { exercise: props.exercise, sets: [{ Weight: "", Reps: "" }] };
+    this.state = { sets: [{ Weight: "", Reps: "" }] };
   }
 
   addSet() {
@@ -43,19 +43,14 @@ class AddNewExercise extends Component {
   }
 
   handleSubmit() {
-    if (
-      this.props.person === "Who are you?" ||
-      this.state.exercise === "" ||
-      this.state.sets[0].Weight === "" ||
-      this.state.sets[0].Reps === ""
-    ) {
+    if (this.state.sets[0].Weight === "" || this.state.sets[0].Reps === "") {
       alert("Please fill in all required fields.");
     } else {
       const x = new Date();
       this.props.addExercise([
         {
           Person: this.props.person,
-          Exercise: this.state.exercise,
+          Exercise: this.props.exercise,
           LastWeight: this.state.sets,
           date: x
         },
@@ -66,8 +61,8 @@ class AddNewExercise extends Component {
 
   render() {
     return (
-      <div className="addNewExercise">
-        <form className="newForm">
+      <div className="add-new-exercise">
+        <form>
           {this.state.sets.map((x, y) => (
             <Slide direction="right" in={true} key={y}>
               <div className="set-item">

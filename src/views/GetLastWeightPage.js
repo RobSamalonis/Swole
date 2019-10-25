@@ -42,32 +42,25 @@ class GetLastWeightPage extends Component {
       allExercises: arrFilteredForPerson,
       currentEntries: currentEntries,
       selectedExercises: arrFilteredForExercise,
-      selectedExerciseName: null,
+      selectedExerciseName: "",
       selectedTab: 0
     };
   }
 
   changeExercise(event) {
-    if (event.target.value === "Select an Exercise") {
-      this.setState({
-        selectedExerciseName: event.target.value,
-        selectedExercise: null
-      });
-    } else {
-      const prevExercises = this.state.allExercises.filter(
-        item => item.Exercise === event.target.value
-      );
-      const myExercises = this.state.selectedExercises.filter(
-        item => item.Exercise === event.target.value
-      );
+    const prevExercises = this.state.allExercises.filter(
+      item => item.Exercise === event.target.value
+    );
+    const myExercises = this.state.selectedExercises.filter(
+      item => item.Exercise === event.target.value
+    );
 
-      this.setState({
-        allCurrentExercises: prevExercises,
-        selectedExerciseName: myExercises[0].Exercise,
-        selectedExercise: myExercises[0],
-        selectedTab: 0
-      });
-    }
+    this.setState({
+      allCurrentExercises: prevExercises,
+      selectedExerciseName: myExercises[0].Exercise,
+      selectedExercise: myExercises[0],
+      selectedTab: 0
+    });
   }
 
   getMax = () =>

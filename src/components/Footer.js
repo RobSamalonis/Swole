@@ -11,7 +11,7 @@ class Footer extends Component {
     return (
       <React.Fragment>
         <Grid className="footer" item xs={6}>
-          Swole - v{packageJson.version}- copyright 2019
+          Swole - v{packageJson.version}
         </Grid>
         <Grid className="footer" item xs={6}>
           Developed by <i>Rob Samalonis</i>, with a special thanks to
