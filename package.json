@@ -15,7 +15,7 @@
     "react-google-login": "^5.0.5",
     "react-hot-loader": "^4.12.15",
     "react-redux": "^6.0.1",
-    "react-scripts": "1.1.5",
+    "react-scripts": "3.2.0",
     "react-spreadsheet-grid": "^1.4.3",
     "react-tabs": "^3.0.0",
     "redux": "^4.0.4",
@@ -27,5 +27,17 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

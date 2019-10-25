@@ -1,16 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { logout, changeRoute } from "../actions/firebase.action";
+import { logout } from "../actions/auth.action";
+import { changeRoute } from "../actions/router.action";
 import Menu from "./Menu";
 
 import "./MenuBar.css";
 class MenuBar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { user: props.user };
-  }
-
   render() {
     return (
       <div className="menu-bar">
@@ -20,11 +16,11 @@ class MenuBar extends Component {
             changeRoute={this.props.changeRoute}
           />
         </div>
-        <span className="userName">{this.state.user.name.split(" ")[0]}</span>
+        <span className="userName">{this.props.user.name.split(" ")[0]}</span>
         <img
           className="profile-pic"
           alt="profile-pic"
-          src={this.state.user.picture.data.url}
+          src={this.props.user.picture.data.url}
         />
       </div>
     );

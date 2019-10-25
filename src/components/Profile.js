@@ -16,7 +16,7 @@ class Profile extends Component {
   }
 
   getMaxes = () => {
-    const myUser = this.props.firebase.user.name.split(" ");
+    const myUser = this.props.auth.user.name.split(" ");
     const currentEntries = this.props.firebase.db
       .filter(item => item.Person === myUser[0])
       .sort((a, b) => (a.Exercise > b.Exercise ? 1 : -1));

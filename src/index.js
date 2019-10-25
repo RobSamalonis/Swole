@@ -1,10 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+
 import App from "./App";
 import configureStore from "./configure-store";
 import { Provider } from "react-redux";
 import { AppContainer } from "react-hot-loader";
+
+import "./index.css";
 
 const store = configureStore();
 

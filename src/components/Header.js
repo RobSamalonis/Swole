@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import MenuBar from "./MenuBar";
 
@@ -11,13 +12,19 @@ class Header extends Component {
         <span className="App-header">
           <h1 className="App-title">Swole</h1>
         </span>
-
-        {this.props.firebase.user && (
-          <MenuBar user={this.props.firebase.user} />
+        {this.props.auth && this.props.auth.user && (
+          <MenuBar user={this.props.auth.user} />
         )}
       </header>
     );
   }
 }
 
-export default Header;
+const mapStateToProps = state => ({ ...state });
+
+export default connect(
+  mapStateToProps,
+  {}
+)(Header);
+
+export { Header };

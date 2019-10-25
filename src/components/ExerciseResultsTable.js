@@ -25,19 +25,16 @@ class ExerciseResultsTable extends Component {
     });
   }
 
-  getSum = () => {
-    const sum = this.props.allCurrentExercises[
+  getTotalReps = () =>
+    this.props.allCurrentExercises[
       this.state.selectedExerciseIndex
     ].LastWeight.reduce(
       (accumulator, currentValue) => accumulator + Number(currentValue.Reps),
       0
     );
 
-    return sum;
-  };
-
-  getTotal = () => {
-    const sum = this.props.allCurrentExercises[
+  getTotal = () =>
+    this.props.allCurrentExercises[
       this.state.selectedExerciseIndex
     ].LastWeight.reduce(
       (accumulator, currentValue) =>
@@ -45,13 +42,9 @@ class ExerciseResultsTable extends Component {
       0
     );
 
-    return sum;
-  };
-
   render() {
     return (
       <div>
-        {/* change this to date once we get data points */}
         <Select
           value={this.state.selectedExerciseIndex}
           onChange={this.changeExercise}
@@ -79,7 +72,7 @@ class ExerciseResultsTable extends Component {
             ].LastWeight.map((row, index) => {
               return (
                 <TableRow key={index}>
-                  <TableCell>Set {index + 1}</TableCell>
+                  <TableCell>{index + 1}</TableCell>
                   <TableCell align="right"></TableCell>
                   <TableCell align="right">{row.Weight}</TableCell>
                   <TableCell align="right">{row.Reps}</TableCell>
@@ -91,12 +84,12 @@ class ExerciseResultsTable extends Component {
               <TableCell rowSpan={2} />
               <TableCell>Totals</TableCell>
               <TableCell align="right">{this.getTotal()}</TableCell>
-              <TableCell align="right">{this.getSum()}</TableCell>
+              <TableCell align="right">{this.getTotalReps()}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Average Set Weight</TableCell>
               <TableCell align="right">
-                {(this.getTotal() / this.getSum("Reps")).toFixed(0)}
+                {(this.getTotal() / this.getTotalReps()).toFixed(0)}
               </TableCell>
             </TableRow>
           </TableBody>

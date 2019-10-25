@@ -1,4 +1,4 @@
-## Swoll
+## Swole
 
 # Docker
 - cmd ```$ npm run build```

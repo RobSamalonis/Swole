@@ -5,15 +5,12 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Profile from "./components/Profile";
 import GetLastWeightPage from "./views/GetLastWeightPage";
-import {
-  initializeFirebase,
-  login,
-  changeRoute
-} from "./actions/firebase.action";
+import { initializeFirebase } from "./actions/firebase.action";
+import { login } from "./actions/auth.action";
+import { changeRoute } from "./actions/router.action";
 import { connect } from "react-redux";
 
 import FacebookLogin from "react-facebook-login";
-// import { GoogleLogin } from "react-google-login";
 
 import Grid from "@material-ui/core/Grid";
 import Modal from "@material-ui/core/Modal";
@@ -30,14 +27,11 @@ class App extends Component {
     const responseFacebook = response => {
       this.props.login(response);
     };
-    // const responseGoogle = response => {
-    //   this.props.login(response);
-    //   this.setState({ open: false });
-    // };
+
     return (
       <div className="App">
         <Modal
-          open={!this.props.firebase.user}
+          open={!this.props.auth.user}
           className="modal"
           onClose={this.handleClose}
           closeAfterTransition
@@ -46,7 +40,7 @@ class App extends Component {
             timeout: 500
           }}
         >
-          <Fade in={!this.props.firebase.user}>
+          <Fade in={!this.props.auth.user}>
             <div className="paper">
               <div>
                 <h3>Welcome to Swole!</h3>
@@ -60,34 +54,27 @@ class App extends Component {
                 callback={responseFacebook}
                 textButton="Continue with Facebook"
               />
-              {/* <GoogleLogin
-                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                buttonText="Login"
-                onSuccess={responseGoogle}
-                onFailure={responseGoogle}
-                cookiePolicy={"single_host_origin"}
-              /> */}
             </div>
           </Fade>
         </Modal>
         <Grid className="grid" container>
           <Grid className="header" item xs={12}>
-            <Header firebase={this.props.firebase} />
+            <Header />
           </Grid>
           <Grid className="main" style={{ padding: "1em" }} item xs={12}>
-            {this.props.firebase.user && this.props.firebase.db && (
+            {this.props.auth && this.props.auth.user && (
               <div className="menu-main">
-                {(this.props.firebase.route === "Home" ||
-                  !this.props.firebase.route) && (
+                {(this.props.router.route === "Home" ||
+                  !this.props.router.route) && (
                   <GetLastWeightPage
-                    user={this.props.firebase.user}
+                    user={this.props.auth.user}
                     firebase={this.props.firebase}
                   />
                 )}
-                {this.props.firebase.route === "Profile" && <Profile />}
+                {this.props.router.route === "Profile" && <Profile />}
               </div>
             )}
-            {!this.props.firebase.user && (
+            {!this.props.auth.user && (
               <h3 onClick={this.handleOpen} className="login-please">
                 Login to get Swole <i className="fab fa-angellist"></i>
               </h3>

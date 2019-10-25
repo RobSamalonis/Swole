@@ -7,8 +7,8 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Chart from "../components/Chart.js";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
 
+import "react-tabs/style/react-tabs.css";
 import "./GetLastWeightPage.css";
 
 class GetLastWeightPage extends Component {
@@ -19,6 +19,7 @@ class GetLastWeightPage extends Component {
     const currentEntries = props.firebase.db.filter(
       item => item.Person === myUser[0]
     );
+
     const arrFilteredForPerson = props.firebase.db.filter(
       item => item.Person === myUser[0]
     );
@@ -29,16 +30,13 @@ class GetLastWeightPage extends Component {
 
     arrFilteredForExercise.sort((a, b) => (a.Exercise > b.Exercise ? 1 : -1));
     this.changeExercise = this.changeExercise.bind(this);
+
     this.state = {
-      selectedPerson: myUser[0],
-      exercises: [],
+      user: myUser[0],
       allExercises: arrFilteredForPerson,
       currentEntries: currentEntries,
       selectedExercises: arrFilteredForExercise,
       selectedExerciseName: "Select an Exercise",
-      updated: false,
-      add: false,
-      firebase: props.firebase,
       selectedTab: 0
     };
   }
@@ -75,7 +73,7 @@ class GetLastWeightPage extends Component {
         .map(item => Number(item.Weight))
     );
 
-  handleSelect = (index, last) => {
+  handleSelect = index => {
     this.setState({
       selectedTab: index
     });
@@ -83,76 +81,69 @@ class GetLastWeightPage extends Component {
 
   render() {
     return (
-      <React.Fragment>
-        {this.state.firebase && this.state.firebase.users && (
-          <div className="lastWeightPage">
-            <div className="item">
-              {this.state.selectedPerson && this.state.selectedExercises && (
-                <Select
-                  value={this.state.selectedExerciseName}
-                  onChange={this.changeExercise}
-                  style={{ backgroundColor: "white" }}
-                >
-                  <MenuItem
-                    key={"Select an Exercise"}
-                    value={"Select an Exercise"}
-                  >
-                    {"Select an Exercise"}
-                  </MenuItem>
-                  {this.state.selectedExercises.map((item, i) => (
-                    <MenuItem key={i} value={item.Exercise}>
-                      {item.Exercise}
-                    </MenuItem>
-                  ))}
-                </Select>
-              )}
-              {this.state.selectedExercise &&
-                this.state.selectedExerciseName !== "Select an Exercise" && (
-                  <span className="record">
-                    PR: {this.getMax(this.state.selectedExercise)} lbs
-                  </span>
-                )}
-            </div>
+      <div className="lastWeightPage">
+        <div className="item">
+          {this.state.user && this.state.selectedExercises && (
+            <Select
+              value={this.state.selectedExerciseName}
+              onChange={this.changeExercise}
+              style={{ backgroundColor: "white" }}
+            >
+              <MenuItem key={"Select an Exercise"} value={"Select an Exercise"}>
+                {"Select an Exercise"}
+              </MenuItem>
+              {this.state.selectedExercises.map((item, i) => (
+                <MenuItem key={i} value={item.Exercise}>
+                  {item.Exercise}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
+          {this.state.selectedExercise &&
+            this.state.selectedExerciseName !== "Select an Exercise" && (
+              <span className="record">
+                PR: {this.getMax(this.state.selectedExercise)} lbs
+              </span>
+            )}
+        </div>
 
-            <div className="item">
-              {this.state.selectedExercise &&
-                this.state.selectedExerciseName !== "Select an Exercise" && (
-                  <Tabs
-                    onSelect={this.handleSelect}
-                    selectedIndex={this.state.selectedTab}
-                  >
-                    <TabList>
-                      <Tab>Weight Chart</Tab>
-                      <Tab>Plots</Tab>
-                      <Tab>Add</Tab>
-                    </TabList>
-                    <TabPanel>
-                      <ExerciseResultsTable
-                        allCurrentExercises={this.state.allCurrentExercises}
-                      />
-                    </TabPanel>
-                    <TabPanel>
-                      {this.state.selectedExerciseName && (
-                        <Chart
-                          exercise={this.state.currentEntries.filter(
-                            item =>
-                              item.Exercise === this.state.selectedExerciseName
-                          )}
-                        />
+        <div className="item">
+          {this.state.selectedExercise &&
+            this.state.selectedExerciseName !== "Select an Exercise" && (
+              <Tabs
+                onSelect={this.handleSelect}
+                selectedIndex={this.state.selectedTab}
+              >
+                <TabList>
+                  <Tab>Weight Chart</Tab>
+                  <Tab>Plots</Tab>
+                  <Tab>Add</Tab>
+                </TabList>
+                <TabPanel>
+                  <ExerciseResultsTable
+                    allCurrentExercises={this.state.allCurrentExercises}
+                  />
+                </TabPanel>
+                <TabPanel>
+                  {this.state.selectedExerciseName && (
+                    <Chart
+                      exercise={this.state.currentEntries.filter(
+                        item =>
+                          item.Exercise === this.state.selectedExerciseName
                       )}
-                    </TabPanel>
-                    <TabPanel>
-                      <AddNewExercise
-                        person={this.state.selectedPerson}
-                        exercise={this.state.selectedExerciseName}
-                      />
-                    </TabPanel>
-                  </Tabs>
-                )}
-            </div>
-          </div>
-        )}
-      </React.Fragment>
+                    />
+                  )}
+                </TabPanel>
+                <TabPanel>
+                  <AddNewExercise
+                    person={this.state.user}
+                    exercise={this.state.selectedExerciseName}
+                  />
+                </TabPanel>
+              </Tabs>
+            )}
+        </div>
+      </div>
     );
   }
 }
