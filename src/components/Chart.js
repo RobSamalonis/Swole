@@ -44,17 +44,13 @@ export default class LinePlot extends Component {
 
     const totalWeights = props.exercise.map(item =>
       item.LastWeight.map(item => item.Weight * item.Reps).reduce(
-        (acc, currentValue) => {
-          return acc + currentValue;
-        },
+        (acc, currentValue) => acc + currentValue,
         0
       )
     );
     const averageWeights = totalWeights.map((item, i) => {
       const totalSets = props.exercise[i].LastWeight.reduce(
-        (acc, currentValue) => {
-          return acc + Number(currentValue.Reps);
-        },
+        (acc, currentValue) => acc + Number(currentValue.Reps),
         0
       );
       return (item / totalSets).toFixed(0);

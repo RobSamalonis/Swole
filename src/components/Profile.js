@@ -35,7 +35,7 @@ class Profile extends Component {
     return (
       <div className="profile">
         {this.state.maxes && (
-          <Table className="my-table" ria-label="spanning table">
+          <Table>
             <TableHead>
               <TableRow>
                 <TableCell>Lift</TableCell>

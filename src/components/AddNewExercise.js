@@ -49,7 +49,11 @@ class AddNewExercise extends Component {
       const x = new Date();
       this.props.addExercise([
         {
-          Person: this.props.person,
+          Person: {
+            id: this.props.user.id,
+            email: this.props.user.email,
+            name: this.props.user.name
+          },
           Exercise: this.props.exercise,
           LastWeight: this.state.sets,
           date: x

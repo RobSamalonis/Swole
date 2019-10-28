@@ -38,7 +38,6 @@ class GetLastWeightPage extends Component {
     this.changeExercise = this.changeExercise.bind(this);
 
     this.state = {
-      user: myUser[0],
       allExercises: arrFilteredForPerson,
       currentEntries: currentEntries,
       selectedExercises: arrFilteredForExercise,
@@ -132,10 +131,7 @@ class GetLastWeightPage extends Component {
                   )}
                 </TabPanel>
                 <TabPanel>
-                  <AddNewExercise
-                    person={this.state.user}
-                    exercise={this.state.selectedExerciseName}
-                  />
+                  <AddNewExercise exercise={this.state.selectedExerciseName} />
                 </TabPanel>
               </Tabs>
             )}
