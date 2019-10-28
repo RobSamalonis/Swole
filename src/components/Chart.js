@@ -111,33 +111,32 @@ export default class LinePlot extends Component {
             Volume
           </MenuItem>
         </Select>
-
-        {this.state.chartType === "Volume" && (
-          <Line
-            ref="chart"
-            data={this.state.totalWeightData}
-            redraw
-            key={this.state.key}
-          />
-        )}
-
-        {this.state.chartType === "Top Set Weights" && (
-          <Line
-            ref="chart"
-            data={this.state.topWeightData}
-            redraw
-            key={this.state.key + 100}
-          />
-        )}
-
-        {this.state.chartType === "Average Set Weights" && (
-          <Line
-            ref="chart"
-            data={this.state.averageWeightData}
-            redraw
-            key={this.state.key + 200}
-          />
-        )}
+        <div className="charts">
+          {this.state.chartType === "Volume" && (
+            <Line
+              ref="chart"
+              data={this.state.totalWeightData}
+              redraw
+              key={this.state.key}
+            />
+          )}
+          {this.state.chartType === "Top Set Weights" && (
+            <Line
+              ref="chart"
+              data={this.state.topWeightData}
+              redraw
+              key={this.state.key + 100}
+            />
+          )}
+          {this.state.chartType === "Average Set Weights" && (
+            <Line
+              ref="chart"
+              data={this.state.averageWeightData}
+              redraw
+              key={this.state.key + 200}
+            />
+          )}
+        </div>
       </React.Fragment>
     );
   }

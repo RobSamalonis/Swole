@@ -1,14 +1,14 @@
 .App {
-  display: flex; /* displays flex-items (children) inline */
-  flex-direction: column; /* stacks them vertically */
-  height: 100%; /* needs to take the parents height, alternative: body {display: flex} */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   background-color: #6200ee;
   overflow: "auto";
 }
 
 .main {
-  overflow: hidden; /* to scroll just the "main" div */
-  height: 100%; /* takes the visible area of the "main" div */
+  overflow: hidden;
+  height: 100%;
   overflow: fixed;
   border-bottom: 1px solid;
   background: white;

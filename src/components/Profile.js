@@ -12,10 +12,7 @@ import "./Profile.css";
 class Profile extends Component {
   constructor(props) {
     super(props);
-    this.state = { maxes: this.getMaxes() };
-  }
 
-  getMaxes = () => {
     const myUser = this.props.auth.user.name.split(" ");
     const currentEntries = this.props.firebase.db
       .filter(item => item.Person === myUser[0])
@@ -31,9 +28,8 @@ class Profile extends Component {
         maxes[item.Exercise].weight = max;
       }
     });
-
-    return maxes;
-  };
+    this.state = { maxes };
+  }
 
   render() {
     return (
