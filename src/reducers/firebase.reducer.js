@@ -13,10 +13,6 @@ import {
 
 const initialState = { isFetching: false };
 
-const getUsers = db => [
-  ...new Set(db.map(item => item.Person).filter(item => !!item))
-];
-
 export default function articles(state = initialState, action) {
   switch (action.type) {
     case INITIALIZE: {
@@ -27,7 +23,6 @@ export default function articles(state = initialState, action) {
     case INITIALIZE_SUCCESS: {
       return Object.assign({}, state, {
         isFetching: false,
-        users: getUsers(action.payload),
         db: action.payload
       });
     }

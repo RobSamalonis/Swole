@@ -50,9 +50,9 @@ class AddNewExercise extends Component {
       this.props.addExercise([
         {
           Person: {
-            id: this.props.user.id,
-            email: this.props.user.email,
-            name: this.props.user.name
+            id: this.props.auth.user.id,
+            email: this.props.auth.user.email,
+            name: this.props.auth.user.name
           },
           Exercise: this.props.exercise,
           LastWeight: this.state.sets,

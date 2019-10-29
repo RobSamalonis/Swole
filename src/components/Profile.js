@@ -13,10 +13,10 @@ class Profile extends Component {
   constructor(props) {
     super(props);
 
-    const myUser = this.props.auth.user.name.split(" ");
-    const currentEntries = this.props.firebase.db
-      .filter(item => item.Person === myUser[0])
-      .sort((a, b) => (a.Exercise > b.Exercise ? 1 : -1));
+    const currentEntries = props.firebase.db.filter(
+      item => item.Person.id === this.props.auth.user.id
+    );
+
     let maxes = {};
     currentEntries.forEach(item => {
       const max = Math.max(...item.LastWeight.map(item => Number(item.Weight)));

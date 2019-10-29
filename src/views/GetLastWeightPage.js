@@ -20,52 +20,39 @@ import "./GetLastWeightPage.css";
 class GetLastWeightPage extends Component {
   constructor(props) {
     super(props);
-    const myUser = props.user.name.split(" ");
-    let uniq = {};
-    const currentEntries = props.firebase.db.filter(
-      item => item.Person === myUser[0]
-    );
 
-    const arrFilteredForPerson = props.firebase.db.filter(
-      item => item.Person === myUser[0]
-    );
+    const exerciseList = [
+      "Bench Press",
+      "Deadlift - Conventional",
+      "Deadlift - Sumo",
+      "Overhead Press",
+      "Squat"
+    ];
 
-    const arrFilteredForExercise = arrFilteredForPerson.filter(
-      obj => !uniq[obj.Exercise] && (uniq[obj.Exercise] = true)
-    );
-
-    arrFilteredForExercise.sort((a, b) => (a.Exercise > b.Exercise ? 1 : -1));
     this.changeExercise = this.changeExercise.bind(this);
 
     this.state = {
-      allExercises: arrFilteredForPerson,
-      currentEntries: currentEntries,
-      selectedExercises: arrFilteredForExercise,
-      selectedExerciseName: "",
+      exerciseList,
+      selectedExerciseName: "Bench Press",
       selectedTab: 0
     };
   }
 
-  changeExercise(event) {
-    const prevExercises = this.state.allExercises.filter(
-      item => item.Exercise === event.target.value
-    );
-    const myExercises = this.state.selectedExercises.filter(
-      item => item.Exercise === event.target.value
+  getUserExercises = () =>
+    this.props.firebase.db.filter(
+      item => item.Person.id === this.props.auth.user.id
     );
 
+  changeExercise(event) {
     this.setState({
-      allCurrentExercises: prevExercises,
-      selectedExerciseName: myExercises[0].Exercise,
-      selectedExercise: myExercises[0],
+      selectedExerciseName: event.target.value,
       selectedTab: 0
     });
   }
 
   getMax = () =>
     Math.max(
-      ...this.state.currentEntries
-        .filter(item => item.Exercise === this.state.selectedExerciseName)
+      ...this.getExercises()
         .map(item => item.LastWeight)
         .flat()
         .map(item => Number(item.Weight))
@@ -76,6 +63,11 @@ class GetLastWeightPage extends Component {
       selectedTab: index
     });
   };
+
+  getExercises = () =>
+    this.props.firebase.db
+      .filter(item => item.Person.id === this.props.auth.user.id)
+      .filter(item => item.Exercise === this.state.selectedExerciseName);
 
   render() {
     return (
@@ -88,53 +80,47 @@ class GetLastWeightPage extends Component {
               onChange={this.changeExercise}
               style={{ minWidth: 120 }}
             >
-              {this.state.selectedExercises.map((item, i) => (
-                <MenuItem key={i} value={item.Exercise}>
-                  {item.Exercise}
+              {this.state.exerciseList.map((item, i) => (
+                <MenuItem key={i} value={item}>
+                  {item}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
-          {this.state.selectedExercise &&
-            this.state.selectedExerciseName !== "Select an Exercise" && (
-              <span className="record">
-                PR: {this.getMax(this.state.selectedExercise)} lbs
-              </span>
+          {this.state.selectedExerciseName &&
+            this.getExercises().length > 0 && (
+              <span className="record">PR: {this.getMax()} lbs</span>
             )}
         </div>
 
         <div className="item">
-          {this.state.selectedExercise &&
-            this.state.selectedExerciseName !== "Select an Exercise" && (
-              <Tabs
-                onSelect={this.handleSelect}
-                selectedIndex={this.state.selectedTab}
-              >
-                <TabList>
-                  <Tab>Weight Chart</Tab>
-                  <Tab>Plots</Tab>
-                  <Tab>Add</Tab>
-                </TabList>
+          {this.state.selectedExerciseName !== "" && (
+            <Tabs
+              onSelect={this.handleSelect}
+              selectedIndex={this.state.selectedTab}
+            >
+              <TabList>
+                {this.getExercises().length > 0 && <Tab>Weight Chart</Tab>}
+                {this.getExercises().length > 0 && <Tab>Plots</Tab>}
+                <Tab>Add</Tab>
+              </TabList>
+              {this.getExercises().length > 0 && (
                 <TabPanel>
                   <ExerciseResultsTable
-                    allCurrentExercises={this.state.allCurrentExercises}
+                    allCurrentExercises={this.getExercises()}
                   />
                 </TabPanel>
+              )}
+              {this.getExercises().length > 0 && (
                 <TabPanel>
-                  {this.state.selectedExerciseName && (
-                    <Chart
-                      exercise={this.state.currentEntries.filter(
-                        item =>
-                          item.Exercise === this.state.selectedExerciseName
-                      )}
-                    />
-                  )}
+                  <Chart exercise={this.getExercises()} />
                 </TabPanel>
-                <TabPanel>
-                  <AddNewExercise exercise={this.state.selectedExerciseName} />
-                </TabPanel>
-              </Tabs>
-            )}
+              )}
+              <TabPanel>
+                <AddNewExercise exercise={this.state.selectedExerciseName} />
+              </TabPanel>
+            </Tabs>
+          )}
         </div>
       </div>
     );

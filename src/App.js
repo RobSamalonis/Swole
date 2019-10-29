@@ -73,12 +73,7 @@ class App extends Component {
               <Grid className="main" style={{ padding: "1em" }} item xs={12}>
                 <div className="menu-main">
                   {(this.props.router.route === "Home" ||
-                    !this.props.router.route) && (
-                    <GetLastWeightPage
-                      user={this.props.auth.user}
-                      firebase={this.props.firebase}
-                    />
-                  )}
+                    !this.props.router.route) && <GetLastWeightPage />}
                   {this.props.router.route === "Profile" && <Profile />}
                 </div>
               </Grid>
