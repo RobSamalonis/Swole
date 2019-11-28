@@ -5,7 +5,7 @@ import AddNewExercise from "../components/AddNewExercise";
 import Chart from "../components/Chart.js";
 import ExerciseResultsTable from "../components/ExerciseResultsTable";
 
-import { initializeFirebase, fetchFirebase } from "../actions/firebase.action";
+import { fetchFirebase } from "../actions/firebase.action";
 
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
@@ -131,7 +131,7 @@ const mapStateToProps = state => ({ ...state });
 
 export default connect(
   mapStateToProps,
-  { initializeFirebase, fetchFirebase }
+  { fetchFirebase }
 )(GetLastWeightPage);
 
 export { GetLastWeightPage };

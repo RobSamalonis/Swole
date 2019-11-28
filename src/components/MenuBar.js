@@ -18,11 +18,6 @@ class MenuBar extends Component {
           />
         </div>
         <span className="userName">{this.props.user.name.split(" ")[0]}</span>
-        <img
-          className="profile-pic"
-          alt="profile-pic"
-          src={this.props.user.picture.data.url}
-        />
       </div>
     );
   }
