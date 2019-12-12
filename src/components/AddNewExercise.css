@@ -1,0 +1,25 @@
+.add-new-exercise {
+  padding-top: 1em;
+}
+
+.add-button:hover,
+.submit-button:hover {
+  background-color: #6200ee !important;
+}
+
+.submit {
+  padding-top: 1em;
+}
+
+.set-item {
+  padding-bottom: 1em;
+}
+
+.weight,
+.reps {
+  max-width: 5em;
+}
+
+.fa-trash-alt:hover {
+  color: red;
+}

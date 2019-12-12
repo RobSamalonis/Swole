@@ -1,0 +1,11 @@
+option {
+  min-width: 50px;
+}
+
+.item {
+  padding-bottom: 1em;
+}
+
+.record {
+  float: right;
+}

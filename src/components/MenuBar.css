@@ -1,0 +1,27 @@
+.menu-bar {
+  color: white;
+}
+
+.profile-pic {
+  float: right;
+  height: 20px;
+  width: 20px;
+  border-radius: 1em;
+  position: relative;
+  top: 34px;
+}
+
+.userName {
+  position: relative;
+  top: 38px;
+  float: right;
+  padding-left: 0.5em;
+  padding-right: 1em;
+  font-size: 10pt;
+}
+.menu {
+  position: relative;
+  top: 21px;
+  float: right;
+  margin-right: 1em;
+}

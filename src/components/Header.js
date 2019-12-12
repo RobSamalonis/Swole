@@ -1,14 +1,27 @@
-import React, { Component } from 'react';
-import '../styles/Header.css';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import MenuBar from "./MenuBar";
+
+import "./Header.css";
 
 class Header extends Component {
-    render() {
-      return (
-        <header className="App-header">
-            <h1 className="App-title"> </h1>
-        </header>
-      );
-    }
-  }
+  render() {
+    return (
+      <header>
+        <span className="App-header">
+          <h1 className="App-title">Swole</h1>
+        </span>
 
-export default Header;
+        {this.props.firebase && this.props.firebase.user && (
+          <MenuBar user={this.props.firebase.user} />
+        )}
+      </header>
+    );
+  }
+}
+
+const mapStateToProps = state => ({ ...state });
+
+export default connect(mapStateToProps, {})(Header);
+
+export { Header };
