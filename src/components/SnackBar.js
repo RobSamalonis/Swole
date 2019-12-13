@@ -108,7 +108,7 @@ export default function CustomizedSnackbars({ type }) {
           horizontal: "left"
         }}
         open={open}
-        autoHideDuration={6000}
+        autoHideDuration={3000}
         onClose={handleClose}
       >
         {type ? (

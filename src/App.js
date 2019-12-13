@@ -10,6 +10,7 @@ import GetLastWeightPage from "./views/GetLastWeightPage";
 import { changeRoute } from "./actions/router.action";
 import { initializeFirebase } from "./actions/firebase.action";
 
+import LinearProgress from "@material-ui/core/LinearProgress";
 import Fade from "@material-ui/core/Fade";
 import Grid from "@material-ui/core/Grid";
 
@@ -23,8 +24,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Login />
-        {this.props.firebase && this.props.firebase.user && (
+        {this.props.firebase.isFetching && <LinearProgress />}
+        {this.props.firebase.db && <Login />}
+        {this.props.firebase.user && this.props.firebase.db && (
           <Fade in={!!this.props.firebase.user}>
             <Grid className="grid" container>
               <Grid className="header" item xs={12}>

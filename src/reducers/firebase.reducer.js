@@ -33,7 +33,7 @@ export default function articles(state = initialState, action) {
     case INITIALIZE_SUCCESS: {
       return Object.assign({}, state, {
         isFetching: false,
-        db: action.payload
+        db: Object.values(action.payload)
       });
     }
     case INITIALIZE_ERROR: {
@@ -49,7 +49,7 @@ export default function articles(state = initialState, action) {
     case RECIEVED_FIREBASE: {
       return Object.assign({}, state, {
         isFetching: false,
-        db: action.payload
+        db: Object.values(action.payload)
       });
     }
     case RECIEVED_FIREBASE_ERROR: {
@@ -71,7 +71,7 @@ export default function articles(state = initialState, action) {
     case ADD_EXERCISE_SUCCESS: {
       return Object.assign({}, state, {
         isFetching: false,
-        db: action.payload,
+        db: Object.values(action.payload),
         addExerciseSuccess: true
       });
     }

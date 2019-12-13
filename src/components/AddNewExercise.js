@@ -46,13 +46,13 @@ class AddNewExercise extends Component {
   }
 
   handleSubmit() {
-    if (this.state.sets[0].Weight === "" || this.state.sets[0].Reps === "") {
+    const trimmedSets = this.state.sets.filter(
+      item => !isNaN(item.Weight) && !isNaN(item.Reps)
+    );
+    if (trimmedSets.length === 0) {
       alert("Please fill in all required fields.");
     } else {
       const x = new Date();
-      const trimmedSets = this.state.sets.filter(
-        item => item.Weight !== "" && item.Reps !== ""
-      );
       this.props.addExercise(
         [
           {

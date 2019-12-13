@@ -5,6 +5,7 @@ import { createAccount, signin, signout } from "../actions/firebase.action";
 
 import Backdrop from "@material-ui/core/Backdrop";
 import Button from "@material-ui/core/Button";
+
 import Modal from "@material-ui/core/Modal";
 import TextField from "@material-ui/core/TextField";
 
@@ -107,6 +108,7 @@ class Login extends Component {
             <TextField
               className="email"
               label={`Email`}
+              fullWidth
               value={this.state.email}
               onChange={e => this.handleEmailChange(e)}
               margin="normal"
@@ -114,6 +116,7 @@ class Login extends Component {
             />
             {this.state.createAccount && (
               <TextField
+                fullWidth
                 className="name"
                 label={`Name`}
                 value={this.state.name}
@@ -123,6 +126,7 @@ class Login extends Component {
               />
             )}
             <TextField
+              fullWidth
               type="password"
               className="password"
               label={`Password`}
@@ -133,6 +137,7 @@ class Login extends Component {
             />
             {this.state.createAccount && (
               <TextField
+                fullWidth
                 type="password"
                 className="password"
                 label={`Verify Password`}
@@ -142,6 +147,7 @@ class Login extends Component {
                 style={{ display: "block" }}
               />
             )}
+
             <Button
               variant="contained"
               style={{
@@ -156,13 +162,13 @@ class Login extends Component {
             >
               {this.state.createAccount ? "Create Account" : "Sign In"}
             </Button>
+
             {!this.state.createAccount ? (
               <Button
                 variant="contained"
                 style={{
                   color: "white",
                   marginTop: "1em",
-                  float: "right",
                   backgroundColor: "#BB86FC"
                 }}
                 onClick={this.handleCreateAccount}
@@ -176,7 +182,6 @@ class Login extends Component {
                 style={{
                   color: "white",
                   marginTop: "1em",
-                  float: "right",
                   backgroundColor: "#BB86FC"
                 }}
                 onClick={this.close}

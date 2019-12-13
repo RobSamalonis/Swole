@@ -55,14 +55,6 @@ class GetLastWeightPage extends Component {
     });
   };
 
-  getMax = () =>
-    Math.max(
-      ...this.state.selectedExercises
-        .map(item => item.LastWeight)
-        .flat()
-        .map(item => Number(item.Weight))
-    );
-
   handleSelect = index => {
     this.props.resetUpdates();
     this.setState({
@@ -87,17 +79,6 @@ class GetLastWeightPage extends Component {
   handleCloseExercise = () => {
     this.setState({ addExerciseOpen: false });
   };
-
-  showButton = () => {
-    console.log(
-      exercises.filter(item => item === this.state.selectedExerciseName)
-    );
-    return (
-      exercises.filter(item => item === this.state.selectedExerciseName)
-        .length > 0
-    );
-  };
-
   render() {
     return (
       <div className="lastWeightPage">
@@ -116,10 +97,6 @@ class GetLastWeightPage extends Component {
               />
             )}
           />
-
-          {this.state.selectedExercises.length > 0 && (
-            <span className="record">Personal Record: {this.getMax()} lbs</span>
-          )}
         </div>
 
         <div className="item">

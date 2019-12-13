@@ -33,5 +33,5 @@
   transform: translate(-50%, -50%);
   overflow: auto;
   max-height: 60%;
-  min-width: 50%;
+  width: 55%;
 }
