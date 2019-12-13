@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { addExercise } from "../actions/firebase.action";
 
 import Button from "@material-ui/core/Button";
-import Slide from "@material-ui/core/Slide";
+import Fade from "@material-ui/core/Fade";
 import TextField from "@material-ui/core/TextField";
 
 import "./AddNewExercise.css";
@@ -17,7 +17,10 @@ class AddNewExercise extends Component {
     this.handleWeightChange = this.handleWeightChange.bind(this);
     this.handleRepChange = this.handleRepChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = { sets: [{ Weight: "", Reps: "" }] };
+
+    this.state = {
+      sets: [{ Weight: "", Reps: "" }]
+    };
   }
 
   addSet() {
@@ -50,19 +53,22 @@ class AddNewExercise extends Component {
       const trimmedSets = this.state.sets.filter(
         item => item.Weight !== "" && item.Reps !== ""
       );
-      this.props.addExercise([
-        {
-          Person: {
-            uid: this.props.firebase.user.uid,
-            email: this.props.firebase.user.email,
-            name: this.props.firebase.user.displayName
+      this.props.addExercise(
+        [
+          {
+            Person: {
+              uid: this.props.firebase.user.uid,
+              email: this.props.firebase.user.email,
+              name: this.props.firebase.user.displayName
+            },
+            Exercise: this.props.exercise,
+            LastWeight: trimmedSets,
+            date: x
           },
-          Exercise: this.props.exercise,
-          LastWeight: trimmedSets,
-          date: x
-        },
-        ...this.props.firebase.db
-      ]);
+          ...this.props.firebase.db
+        ],
+        this.props.handleClose()
+      );
     }
   }
 
@@ -71,7 +77,7 @@ class AddNewExercise extends Component {
       <div className="add-new-exercise">
         <form>
           {this.state.sets.map((x, y) => (
-            <Slide direction="right" in={true} key={y}>
+            <Fade direction="right" in={true} key={y}>
               <div className="set-item">
                 <div>
                   Set #{y + 1}
@@ -103,7 +109,7 @@ class AddNewExercise extends Component {
                 />
                 <hr />
               </div>
-            </Slide>
+            </Fade>
           ))}
 
           <Button

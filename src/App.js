@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import Header from "./components/Header";
-import Footer from "./components/Footer";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
 
+import CustomizedSnackbars from "./components/SnackBar";
 import GetLastWeightPage from "./views/GetLastWeightPage";
 import { changeRoute } from "./actions/router.action";
 import { initializeFirebase } from "./actions/firebase.action";
@@ -38,8 +38,11 @@ class App extends Component {
                   {this.props.router.route === "Profile" && <Profile />}
                 </div>
               </Grid>
-
-              <Footer />
+              {this.props.firebase.addExerciseSuccess !== "initial" && (
+                <CustomizedSnackbars
+                  type={this.props.firebase.addExerciseSuccess}
+                />
+              )}
             </Grid>
           </Fade>
         )}

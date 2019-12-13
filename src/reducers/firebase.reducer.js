@@ -17,10 +17,11 @@ import {
   SIGN_IN_FAILURE,
   REQUEST_SIGN_OUT,
   SIGN_OUT_SUCCESS,
-  SIGN_OUT_FAILURE
+  SIGN_OUT_FAILURE,
+  RESET_UPDATES
 } from "../actions/types";
 
-const initialState = { isFetching: false };
+const initialState = { isFetching: false, addExerciseSuccess: "initial" };
 
 export default function articles(state = initialState, action) {
   switch (action.type) {
@@ -70,12 +71,14 @@ export default function articles(state = initialState, action) {
     case ADD_EXERCISE_SUCCESS: {
       return Object.assign({}, state, {
         isFetching: false,
-        db: action.payload
+        db: action.payload,
+        addExerciseSuccess: true
       });
     }
     case ADD_EXERCISE_ERROR: {
       return Object.assign({}, state, {
-        isFetching: false
+        isFetching: false,
+        addExerciseSuccess: false
       });
     }
     case REQUEST_CREATE_ACCOUNT: {
@@ -85,12 +88,14 @@ export default function articles(state = initialState, action) {
     }
     case CREATE_ACCOUNT_SUCCESS: {
       return Object.assign({}, state, {
-        isFetching: false
+        isFetching: false,
+        createAccountSuccess: true
       });
     }
     case CREATE_ACCOUNT_FAILURE: {
       return Object.assign({}, state, {
-        isFetching: false
+        isFetching: false,
+        createAccountSuccess: false
       });
     }
     case REQUEST_SIGN_OUT: {
@@ -123,6 +128,12 @@ export default function articles(state = initialState, action) {
     case SIGN_IN_FAILURE: {
       return Object.assign({}, state, {
         isFetching: false
+      });
+    }
+    case RESET_UPDATES: {
+      return Object.assign({}, state, {
+        isFetching: false,
+        addExerciseSuccess: "initial"
       });
     }
     default:

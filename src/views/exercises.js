@@ -19,6 +19,7 @@ module.exports.exercises = [
   "Deadlift - Trap Bar",
   "Dips",
   "Dumbbell Bench Press",
+  "Dumbbell Bicep Curls",
   "Dumbbell Chest Fly",
   "Dumbbell Chest Pullovers",
   "Dumbbell Front Raise",

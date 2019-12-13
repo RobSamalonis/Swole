@@ -4,6 +4,7 @@
   height: 100%;
   background-color: #6200ee;
   overflow: "auto";
+  margin: -1em;
 }
 
 .main {
@@ -22,34 +23,15 @@
   padding: 1em;
 }
 
-.btnFacebook {
-  padding: 1em;
-  border-radius: 4px;
-  background: #3b5998;
-  color: white;
-  border: 0px transparent;
-  text-align: center;
-}
-
-.btnFacebook:hover {
-  background: #3b5998;
-  opacity: 0.6;
-}
-
 .paper {
   background-color: white;
   border: 2px solid #000;
   position: absolute;
-  padding: 1em;
+  padding: 2em;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-}
-
-.login-please {
-  padding: 2.5em 0 2.5em 0;
-}
-
-.login-please:hover {
-  background-color: lightgray;
+  overflow: auto;
+  max-height: 60%;
+  min-width: 50%;
 }

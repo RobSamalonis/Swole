@@ -5,12 +5,16 @@ import AddNewExercise from "../components/AddNewExercise";
 import Chart from "../components/Chart.js";
 import ExerciseResultsTable from "../components/ExerciseResultsTable";
 
-import { fetchFirebase } from "../actions/firebase.action";
+import { fetchFirebase, resetUpdates } from "../actions/firebase.action";
 
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
+import AddIcon from "@material-ui/icons/Add";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fab from "@material-ui/core/Fab";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import Modal from "@material-ui/core/Modal";
 
 import { exercises } from "./exercises.js";
 
@@ -22,7 +26,8 @@ class GetLastWeightPage extends Component {
     super(props);
 
     this.changeExercise = this.changeExercise.bind(this);
-    this.getExercisesBeta = this.getExercisesBeta.bind(this);
+    this.getExercises = this.getExercises.bind(this);
+    this.handleOpenExercise = this.handleOpenExercise.bind(this);
 
     const userExercises = this.props.firebase.db.filter(
       item => item.Person.uid === this.props.firebase.user.uid
@@ -33,7 +38,8 @@ class GetLastWeightPage extends Component {
       selectedExerciseName: null,
       selectedExercises: [],
       selectedTab: 0,
-      userExercises
+      userExercises,
+      addExerciseOpen: false
     };
   }
 
@@ -58,12 +64,13 @@ class GetLastWeightPage extends Component {
     );
 
   handleSelect = index => {
+    this.props.resetUpdates();
     this.setState({
       selectedTab: index
     });
   };
 
-  getExercisesBeta = event => {
+  getExercises = event => {
     const selectedExercises = this.state.userExercises.filter(
       item => item.Exercise === event.target.value
     );
@@ -71,6 +78,24 @@ class GetLastWeightPage extends Component {
       selectedExercises,
       selectedExerciseName: event.target.value
     });
+  };
+
+  handleOpenExercise = () => {
+    this.setState({ addExerciseOpen: true });
+  };
+
+  handleCloseExercise = () => {
+    this.setState({ addExerciseOpen: false });
+  };
+
+  showButton = () => {
+    console.log(
+      exercises.filter(item => item === this.state.selectedExerciseName)
+    );
+    return (
+      exercises.filter(item => item === this.state.selectedExerciseName)
+        .length > 0
+    );
   };
 
   render() {
@@ -81,7 +106,7 @@ class GetLastWeightPage extends Component {
             options={this.state.exerciseList}
             getOptionLabel={option => option}
             style={{ width: 300 }}
-            onSelect={this.getExercisesBeta}
+            onSelect={this.getExercises}
             renderInput={params => (
               <TextField
                 {...params}
@@ -99,35 +124,59 @@ class GetLastWeightPage extends Component {
 
         <div className="item">
           {this.state.selectedExerciseName && (
-            <Tabs
-              onSelect={this.handleSelect}
-              selectedIndex={this.state.selectedTab}
-            >
-              <TabList>
-                {this.state.selectedExercises.length > 0 && (
-                  <Tab>Weight Chart</Tab>
-                )}
-                {this.state.selectedExercises.length > 0 && <Tab>Plots</Tab>}
-                <Tab>Add</Tab>
-              </TabList>
+            <div>
               {this.state.selectedExercises.length > 0 && (
-                <TabPanel>
-                  <ExerciseResultsTable
-                    allCurrentExercises={this.state.selectedExercises}
+                <Tabs
+                  onSelect={this.handleSelect}
+                  selectedIndex={this.state.selectedTab}
+                >
+                  <TabList>
+                    <Tab>Weight Chart</Tab>
+                    <Tab>Plots</Tab>
+                  </TabList>
+
+                  <TabPanel>
+                    <ExerciseResultsTable
+                      allCurrentExercises={this.state.selectedExercises}
+                    />
+                  </TabPanel>
+                  <TabPanel>
+                    <Chart exercise={this.state.selectedExercises} />
+                  </TabPanel>
+                </Tabs>
+              )}
+              <Modal
+                open={this.state.addExerciseOpen}
+                className="modal"
+                closeAfterTransition
+                onClose={this.handleCloseExercise}
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500
+                }}
+              >
+                <div className="paper">
+                  <AddNewExercise
+                    exercise={this.state.selectedExerciseName}
+                    handleClose={this.handleCloseExercise}
                   />
-                </TabPanel>
-              )}
-              {this.state.selectedExercises.length > 0 && (
-                <TabPanel>
-                  <Chart exercise={this.state.selectedExercises} />
-                </TabPanel>
-              )}
-              <TabPanel>
-                <AddNewExercise exercise={this.state.selectedExerciseName} />
-              </TabPanel>
-            </Tabs>
+                </div>
+              </Modal>
+            </div>
           )}
         </div>
+        {exercises.filter(item => item === this.state.selectedExerciseName)
+          .length > 0 && (
+          <Fab
+            color="primary"
+            aria-label="add"
+            className="add-button"
+            style={{ float: "right", backgroundColor: "#BB86FC" }}
+            onClick={this.handleOpenExercise}
+          >
+            <AddIcon />
+          </Fab>
+        )}
       </div>
     );
   }
@@ -135,6 +184,8 @@ class GetLastWeightPage extends Component {
 
 const mapStateToProps = state => ({ ...state });
 
-export default connect(mapStateToProps, { fetchFirebase })(GetLastWeightPage);
+export default connect(mapStateToProps, { fetchFirebase, resetUpdates })(
+  GetLastWeightPage
+);
 
 export { GetLastWeightPage };

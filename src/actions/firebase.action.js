@@ -18,7 +18,8 @@ import {
   SIGN_IN_FAILURE,
   REQUEST_SIGN_OUT,
   SIGN_OUT_SUCCESS,
-  SIGN_OUT_FAILURE
+  SIGN_OUT_FAILURE,
+  RESET_UPDATES
 } from "./types";
 
 var config = {
@@ -76,7 +77,6 @@ const addExercise = data => {
       .set(filtered)
       .then(() => {
         dispatch({ type: ADD_EXERCISE_SUCCESS, payload: filtered });
-        alert("Exercise Added!");
       })
       .catch(error => {
         dispatch({ type: ADD_EXERCISE_ERROR });
@@ -138,6 +138,12 @@ const signout = () => {
   };
 };
 
+const resetUpdates = () => {
+  return dispatch => {
+    dispatch({ type: RESET_UPDATES });
+  };
+};
+
 export {
   initializeFirebase,
   fetchFirebase,
@@ -145,5 +151,6 @@ export {
   addExercise,
   createAccount,
   signin,
-  signout
+  signout,
+  resetUpdates
 };
