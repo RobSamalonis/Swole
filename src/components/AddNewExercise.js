@@ -5,6 +5,7 @@ import { addExercise } from "../actions/firebase.action";
 
 import Button from "@material-ui/core/Button";
 import Fade from "@material-ui/core/Fade";
+import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 
 import "./AddNewExercise.css";
@@ -46,9 +47,15 @@ class AddNewExercise extends Component {
   }
 
   handleSubmit() {
-    const trimmedSets = this.state.sets.filter(
-      item => !isNaN(item.Weight) && !isNaN(item.Reps)
-    );
+    const trimmedSets = this.state.sets.filter(item => {
+      return (
+        !isNaN(item.Weight) &&
+        !isNaN(item.Reps) &&
+        item.Weight !== "" &&
+        item.Reps !== ""
+      );
+    });
+
     if (trimmedSets.length === 0) {
       alert("Please fill in all required fields.");
     } else {
@@ -111,33 +118,49 @@ class AddNewExercise extends Component {
               </div>
             </Fade>
           ))}
+          <Grid className="grid" container>
+            <Grid item xs={12}>
+              <Button
+                style={{
+                  color: "white",
+                  backgroundColor: "#BB86FC",
+                  float: "left"
+                }}
+                variant="contained"
+                onClick={this.addSet}
+                className="add-button"
+              >
+                Add Set
+              </Button>
 
-          <Button
-            style={{
-              color: "white",
-              marginTop: "1em",
-              backgroundColor: "#BB86FC"
-            }}
-            variant="contained"
-            onClick={this.addSet}
-            className="add-button"
-          >
-            Add Set
-          </Button>
-
-          <Button
-            variant="contained"
-            style={{
-              color: "white",
-              marginTop: "1em",
-              float: "right",
-              backgroundColor: "#BB86FC"
-            }}
-            onClick={this.handleSubmit}
-            className="submit-button"
-          >
-            Submit
-          </Button>
+              <Button
+                variant="contained"
+                style={{
+                  color: "white",
+                  backgroundColor: "#BB86FC",
+                  float: "right"
+                }}
+                onClick={this.handleSubmit}
+                className="submit-button"
+              >
+                Submit
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                style={{
+                  marginTop: "1em",
+                  color: "white",
+                  backgroundColor: "#FF605C"
+                }}
+                onClick={this.props.handleClose}
+                className="submit-button"
+              >
+                Close
+              </Button>
+            </Grid>
+          </Grid>
         </form>
       </div>
     );

@@ -19,7 +19,10 @@ import {
   REQUEST_SIGN_OUT,
   SIGN_OUT_SUCCESS,
   SIGN_OUT_FAILURE,
-  RESET_UPDATES
+  RESET_UPDATES,
+  REQUEST_VERIFY_USER,
+  VERIFY_USER_SUCCESS,
+  VERIFY_USER_NOONE_LOGGED_IN
 } from "./types";
 
 var config = {
@@ -138,6 +141,19 @@ const signout = () => {
   };
 };
 
+const verifyUser = () => {
+  return dispatch => {
+    dispatch({ type: REQUEST_VERIFY_USER });
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        dispatch({ type: VERIFY_USER_SUCCESS, payload: user });
+      } else {
+        dispatch({ type: VERIFY_USER_NOONE_LOGGED_IN });
+      }
+    });
+  };
+};
+
 const resetUpdates = () => {
   return dispatch => {
     dispatch({ type: RESET_UPDATES });
@@ -152,5 +168,6 @@ export {
   createAccount,
   signin,
   signout,
-  resetUpdates
+  resetUpdates,
+  verifyUser
 };

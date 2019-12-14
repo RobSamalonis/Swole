@@ -3,9 +3,18 @@ option {
 }
 
 .item {
-  padding-bottom: 1em;
+  padding-bottom: 2em;
+  display: "block";
 }
 
 .record {
   float: right;
+}
+
+.add-exercise {
+  padding: 1.5em;
+}
+
+.tabs {
+  padding-top: 2em;
 }

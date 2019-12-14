@@ -18,7 +18,10 @@ import {
   REQUEST_SIGN_OUT,
   SIGN_OUT_SUCCESS,
   SIGN_OUT_FAILURE,
-  RESET_UPDATES
+  RESET_UPDATES,
+  REQUEST_VERIFY_USER,
+  VERIFY_USER_SUCCESS,
+  VERIFY_USER_NOONE_LOGGED_IN
 } from "../actions/types";
 
 const initialState = { isFetching: false, addExerciseSuccess: "initial" };
@@ -134,6 +137,23 @@ export default function articles(state = initialState, action) {
       return Object.assign({}, state, {
         isFetching: false,
         addExerciseSuccess: "initial"
+      });
+    }
+    case REQUEST_VERIFY_USER: {
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    }
+    case VERIFY_USER_SUCCESS: {
+      return Object.assign({}, state, {
+        isFetching: false,
+        user: action.payload
+      });
+    }
+    case VERIFY_USER_NOONE_LOGGED_IN: {
+      return Object.assign({}, state, {
+        isFetching: false,
+        user: null
       });
     }
     default:

@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { createAccount, signin, signout } from "../actions/firebase.action";
+import {
+  createAccount,
+  signin,
+  signout,
+  verifyUser
+} from "../actions/firebase.action";
 
 import Backdrop from "@material-ui/core/Backdrop";
 import Button from "@material-ui/core/Button";
@@ -30,6 +35,10 @@ class Login extends Component {
       passwordVerification: "",
       createAccount: false
     };
+  }
+
+  componentDidMount() {
+    this.props.verifyUser();
   }
 
   handleEmailChange(event) {
@@ -201,7 +210,8 @@ const mapStateToProps = state => ({ ...state });
 export default connect(mapStateToProps, {
   createAccount,
   signin,
-  signout
+  signout,
+  verifyUser
 })(Login);
 
 export { Login };

@@ -10,11 +10,10 @@ import { fetchFirebase, resetUpdates } from "../actions/firebase.action";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
 import AddIcon from "@material-ui/icons/Add";
-import Backdrop from "@material-ui/core/Backdrop";
+import Drawer from "@material-ui/core/Drawer";
 import Fab from "@material-ui/core/Fab";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import Modal from "@material-ui/core/Modal";
 
 import { exercises } from "./exercises.js";
 
@@ -79,6 +78,7 @@ class GetLastWeightPage extends Component {
   handleCloseExercise = () => {
     this.setState({ addExerciseOpen: false });
   };
+
   render() {
     return (
       <div className="lastWeightPage">
@@ -86,7 +86,12 @@ class GetLastWeightPage extends Component {
           <Autocomplete
             options={this.state.exerciseList}
             getOptionLabel={option => option}
-            style={{ width: 300 }}
+            style={{
+              width: 250,
+              marginLeft: ".5em",
+              float: "left",
+              marginBottom: "1em"
+            }}
             onSelect={this.getExercises}
             renderInput={params => (
               <TextField
@@ -97,6 +102,21 @@ class GetLastWeightPage extends Component {
               />
             )}
           />
+          {exercises.filter(item => item === this.state.selectedExerciseName)
+            .length > 0 && (
+            <Fab
+              color="primary"
+              aria-label="add"
+              style={{
+                float: "right",
+                backgroundColor: "#BB86FC",
+                marginBottom: "1em"
+              }}
+              onClick={this.handleOpenExercise}
+            >
+              <AddIcon />
+            </Fab>
+          )}
         </div>
 
         <div className="item">
@@ -104,6 +124,7 @@ class GetLastWeightPage extends Component {
             <div>
               {this.state.selectedExercises.length > 0 && (
                 <Tabs
+                  className="tabs"
                   onSelect={this.handleSelect}
                   selectedIndex={this.state.selectedTab}
                 >
@@ -122,38 +143,21 @@ class GetLastWeightPage extends Component {
                   </TabPanel>
                 </Tabs>
               )}
-              <Modal
-                open={this.state.addExerciseOpen}
-                className="modal"
-                closeAfterTransition
-                onClose={this.handleCloseExercise}
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                  timeout: 500
-                }}
-              >
-                <div className="paper">
-                  <AddNewExercise
-                    exercise={this.state.selectedExerciseName}
-                    handleClose={this.handleCloseExercise}
-                  />
-                </div>
-              </Modal>
             </div>
           )}
         </div>
-        {exercises.filter(item => item === this.state.selectedExerciseName)
-          .length > 0 && (
-          <Fab
-            color="primary"
-            aria-label="add"
-            className="add-button"
-            style={{ float: "right", backgroundColor: "#BB86FC" }}
-            onClick={this.handleOpenExercise}
-          >
-            <AddIcon />
-          </Fab>
-        )}
+        <Drawer
+          anchor="top"
+          open={this.state.addExerciseOpen}
+          onClose={this.handleCloseExercise}
+        >
+          <div className="add-exercise">
+            <AddNewExercise
+              exercise={this.state.selectedExerciseName}
+              handleClose={this.handleCloseExercise}
+            />
+          </div>
+        </Drawer>
       </div>
     );
   }
