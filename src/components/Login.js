@@ -100,108 +100,110 @@ class Login extends Component {
   render() {
     return (
       <div>
-        <Modal
-          open={!this.props.firebase.user}
-          className="modal"
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 500
-          }}
-        >
-          <div className="paper">
-            {this.state.createAccount ? (
-              <h3>Create Account</h3>
-            ) : (
-              <h3>Login</h3>
-            )}
-            <TextField
-              className="email"
-              label={`Email`}
-              fullWidth
-              value={this.state.email}
-              onChange={e => this.handleEmailChange(e)}
-              margin="normal"
-              style={{ display: "block" }}
-            />
-            {this.state.createAccount && (
+        {!this.props.firebase.verifyingUser && (
+          <Modal
+            open={!this.props.firebase.user}
+            className="modal"
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500
+            }}
+          >
+            <div className="paper">
+              {this.state.createAccount ? (
+                <h3>Create Account</h3>
+              ) : (
+                <h3>Login</h3>
+              )}
               <TextField
+                className="email"
+                label={`Email`}
                 fullWidth
-                className="name"
-                label={`Name`}
-                value={this.state.name}
-                onChange={e => this.handleNameChange(e)}
+                value={this.state.email}
+                onChange={e => this.handleEmailChange(e)}
                 margin="normal"
                 style={{ display: "block" }}
               />
-            )}
-            <TextField
-              fullWidth
-              type="password"
-              className="password"
-              label={`Password`}
-              value={this.state.password}
-              onChange={e => this.handlePasswordChange(e)}
-              margin="normal"
-              style={{ display: "block" }}
-            />
-            {this.state.createAccount && (
+              {this.state.createAccount && (
+                <TextField
+                  fullWidth
+                  className="name"
+                  label={`Name`}
+                  value={this.state.name}
+                  onChange={e => this.handleNameChange(e)}
+                  margin="normal"
+                  style={{ display: "block" }}
+                />
+              )}
               <TextField
                 fullWidth
                 type="password"
                 className="password"
-                label={`Verify Password`}
-                value={this.state.passwordVerification}
-                onChange={e => this.handlePasswordVerificationChange(e)}
+                label={`Password`}
+                value={this.state.password}
+                onChange={e => this.handlePasswordChange(e)}
                 margin="normal"
                 style={{ display: "block" }}
               />
-            )}
+              {this.state.createAccount && (
+                <TextField
+                  fullWidth
+                  type="password"
+                  className="password"
+                  label={`Verify Password`}
+                  value={this.state.passwordVerification}
+                  onChange={e => this.handlePasswordVerificationChange(e)}
+                  margin="normal"
+                  style={{ display: "block" }}
+                />
+              )}
 
-            <Button
-              variant="contained"
-              style={{
-                color: "white",
-                marginTop: "1em",
-                float: "left",
-                backgroundColor: "#BB86FC",
-                marginRight: "1em"
-              }}
-              onClick={this.handleSubmit}
-              className="submit-button"
-            >
-              {this.state.createAccount ? "Create Account" : "Sign In"}
-            </Button>
-
-            {!this.state.createAccount ? (
               <Button
                 variant="contained"
                 style={{
                   color: "white",
                   marginTop: "1em",
-                  backgroundColor: "#BB86FC"
+                  float: "left",
+                  backgroundColor: "#BB86FC",
+                  marginRight: "1em"
                 }}
-                onClick={this.handleCreateAccount}
-                className="create-button"
+                onClick={this.handleSubmit}
+                className="submit-button"
               >
-                Create Account
+                {this.state.createAccount ? "Create Account" : "Sign In"}
               </Button>
-            ) : (
-              <Button
-                variant="contained"
-                style={{
-                  color: "white",
-                  marginTop: "1em",
-                  backgroundColor: "#BB86FC"
-                }}
-                onClick={this.close}
-                className="create-button"
-              >
-                Return
-              </Button>
-            )}
-          </div>
-        </Modal>
+
+              {!this.state.createAccount ? (
+                <Button
+                  variant="contained"
+                  style={{
+                    color: "white",
+                    marginTop: "1em",
+                    backgroundColor: "#BB86FC"
+                  }}
+                  onClick={this.handleCreateAccount}
+                  className="create-button"
+                >
+                  Create Account
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  style={{
+                    color: "white",
+                    marginTop: "1em",
+                    backgroundColor: "#BB86FC"
+                  }}
+                  onClick={this.close}
+                  className="create-button"
+                >
+                  Return
+                </Button>
+              )}
+            </div>
+          </Modal>
+        )}
       </div>
     );
   }

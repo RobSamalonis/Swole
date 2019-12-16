@@ -122,7 +122,8 @@ export default function articles(state = initialState, action) {
     }
     case REQUEST_VERIFY_USER: {
       return Object.assign({}, state, {
-        isFetching: true
+        isFetching: true,
+        verifyingUser: true
       });
     }
     case VERIFY_USER_SUCCESS: {
@@ -132,6 +133,7 @@ export default function articles(state = initialState, action) {
       }
       return Object.assign({}, state, {
         isFetching: false,
+        verifyingUser: false,
         user: action.payload.user,
         record: workouts
       });
@@ -139,7 +141,8 @@ export default function articles(state = initialState, action) {
     case VERIFY_USER_NOONE_LOGGED_IN: {
       return Object.assign({}, state, {
         isFetching: false,
-        user: null
+        user: null,
+        verifyingUser: false
       });
     }
     default:
