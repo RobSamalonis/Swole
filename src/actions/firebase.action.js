@@ -1,20 +1,15 @@
 import firebase from "firebase";
 import {
-  INITIALIZE,
-  INITIALIZE_SUCCESS,
-  INITIALIZE_ERROR,
   REQUEST_FIREBASE,
   RECIEVED_FIREBASE,
   RECIEVED_FIREBASE_ERROR,
   CLEAR_FIREBASE,
   ADD_EXERCISE,
   ADD_EXERCISE_SUCCESS,
-  ADD_EXERCISE_ERROR,
   REQUEST_CREATE_ACCOUNT,
   CREATE_ACCOUNT_SUCCESS,
   CREATE_ACCOUNT_FAILURE,
   REQUEST_SIGN_IN,
-  SIGN_IN_SUCCESS,
   SIGN_IN_FAILURE,
   REQUEST_SIGN_OUT,
   SIGN_OUT_SUCCESS,
@@ -28,24 +23,31 @@ import {
 var config = {
   apiKey: process.env.REACT_APP_FIREBASE_ID,
   authDomain: "swole-1190b.firebaseapp.com",
-  databaseURL: "https://swole-1190b.firebaseio.com"
+  databaseURL: "https://swole-1190b.firebaseio.com",
+  projectId: "swole-1190b"
 };
 
-const initializeFirebase = () => {
-  return dispatch => {
-    dispatch({ type: INITIALIZE });
-    firebase.initializeApp(config);
-    firebase
-      .database()
-      .ref("/")
-      .once("value")
-      .then(snapshot => {
-        dispatch({ type: INITIALIZE_SUCCESS, payload: snapshot.val() });
-      })
-      .catch(error => {
-        dispatch({ type: INITIALIZE_ERROR, error });
-      });
-  };
+const app = firebase.initializeApp(config);
+const db = firebase.firestore(app);
+
+const initializeFirebase = (dispatch, user) => {
+  const docRef = db.collection("users").doc(user.uid);
+
+  const workouts = docRef
+    .get()
+    .then(doc => {
+      if (doc.exists) {
+        const record = doc.data();
+        dispatch({ type: VERIFY_USER_SUCCESS, payload: { user, record } });
+      } else {
+        dispatch({ type: VERIFY_USER_SUCCESS, payload: { user } });
+      }
+    })
+    .catch(error => {
+      dispatch({ type: VERIFY_USER_NOONE_LOGGED_IN });
+    });
+
+  return workouts;
 };
 
 const fetchFirebase = () => {
@@ -70,25 +72,17 @@ const clearFirebase = () => {
   };
 };
 
-const addExercise = data => {
-  const filtered = data.filter(item => item);
+const addExercise = (data, user) => {
   return dispatch => {
     dispatch({ type: ADD_EXERCISE });
-    firebase
-      .database()
-      .ref("/")
-      .set(filtered)
-      .then(() => {
-        dispatch({ type: ADD_EXERCISE_SUCCESS, payload: filtered });
-      })
-      .catch(error => {
-        dispatch({ type: ADD_EXERCISE_ERROR });
-      });
+    const usersRef = db.collection("users");
+    const filtered = data.filter(item => item);
+    usersRef.doc(user.uid).set({ exercises: filtered });
+    dispatch({ type: ADD_EXERCISE_SUCCESS, payload: filtered });
   };
 };
 
 const createAccount = (email, password, name) => {
-  let myRes;
   return dispatch => {
     dispatch({ type: REQUEST_CREATE_ACCOUNT });
     firebase
@@ -96,17 +90,11 @@ const createAccount = (email, password, name) => {
       .createUserWithEmailAndPassword(email, password)
       .then(res => {
         dispatch({ type: CREATE_ACCOUNT_SUCCESS });
-        myRes = res;
-        res.user
-          .updateProfile({
-            displayName: name
-          })
-          .then(() => {
-            dispatch({ type: SIGN_IN_SUCCESS, payload: myRes });
-          })
-          .catch(error => {
-            dispatch({ type: SIGN_IN_FAILURE, error });
-          });
+        res.user.updateProfile({
+          displayName: name
+        });
+
+        initializeFirebase(dispatch, res.user);
       })
       .catch(error => {
         dispatch({ type: CREATE_ACCOUNT_FAILURE, error });
@@ -120,7 +108,7 @@ const signin = (email, password) => {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(res => {
-        dispatch({ type: SIGN_IN_SUCCESS, payload: res });
+        initializeFirebase(dispatch, res);
       })
       .catch(error => {
         dispatch({ type: SIGN_IN_FAILURE, error });
@@ -146,7 +134,7 @@ const verifyUser = () => {
     dispatch({ type: REQUEST_VERIFY_USER });
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        dispatch({ type: VERIFY_USER_SUCCESS, payload: user });
+        initializeFirebase(dispatch, user);
       } else {
         dispatch({ type: VERIFY_USER_NOONE_LOGGED_IN });
       }

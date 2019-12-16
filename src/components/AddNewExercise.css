@@ -1,5 +1,5 @@
 .add-new-exercise {
-  padding-top: 1em;
+  padding: 1em;
   max-height: 100;
   overflow: "auto";
 }

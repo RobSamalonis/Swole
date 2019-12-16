@@ -1,7 +1,4 @@
 import {
-  INITIALIZE,
-  INITIALIZE_SUCCESS,
-  INITIALIZE_ERROR,
   REQUEST_FIREBASE,
   RECIEVED_FIREBASE,
   RECIEVED_FIREBASE_ERROR,
@@ -28,22 +25,6 @@ const initialState = { isFetching: false, addExerciseSuccess: "initial" };
 
 export default function articles(state = initialState, action) {
   switch (action.type) {
-    case INITIALIZE: {
-      return Object.assign({}, state, {
-        isFetching: true
-      });
-    }
-    case INITIALIZE_SUCCESS: {
-      return Object.assign({}, state, {
-        isFetching: false,
-        db: Object.values(action.payload)
-      });
-    }
-    case INITIALIZE_ERROR: {
-      return Object.assign({}, state, {
-        isFetching: false
-      });
-    }
     case REQUEST_FIREBASE: {
       return Object.assign({}, state, {
         isFetching: true
@@ -74,7 +55,7 @@ export default function articles(state = initialState, action) {
     case ADD_EXERCISE_SUCCESS: {
       return Object.assign({}, state, {
         isFetching: false,
-        db: Object.values(action.payload),
+        record: action.payload,
         addExerciseSuccess: true
       });
     }
@@ -145,9 +126,14 @@ export default function articles(state = initialState, action) {
       });
     }
     case VERIFY_USER_SUCCESS: {
+      let workouts = [];
+      if (action.payload.record && action.payload.record.exercises) {
+        workouts = action.payload.record.exercises;
+      }
       return Object.assign({}, state, {
         isFetching: false,
-        user: action.payload
+        user: action.payload.user,
+        record: workouts
       });
     }
     case VERIFY_USER_NOONE_LOGGED_IN: {

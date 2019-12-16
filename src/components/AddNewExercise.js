@@ -63,17 +63,13 @@ class AddNewExercise extends Component {
       this.props.addExercise(
         [
           {
-            Person: {
-              uid: this.props.firebase.user.uid,
-              email: this.props.firebase.user.email,
-              name: this.props.firebase.user.displayName
-            },
             Exercise: this.props.exercise,
             LastWeight: trimmedSets,
             date: x
           },
-          ...this.props.firebase.db
+          ...this.props.firebase.record
         ],
+        this.props.firebase.user,
         this.props.handleClose()
       );
     }

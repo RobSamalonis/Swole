@@ -2,12 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import AddNewExercise from "../components/AddNewExercise";
-import Chart from "../components/Chart.js";
 import ExerciseResultsTable from "../components/ExerciseResultsTable";
 
 import { fetchFirebase, resetUpdates } from "../actions/firebase.action";
-
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
 import AddIcon from "@material-ui/icons/Add";
 import Drawer from "@material-ui/core/Drawer";
@@ -28,16 +25,12 @@ class GetLastWeightPage extends Component {
     this.getExercises = this.getExercises.bind(this);
     this.handleOpenExercise = this.handleOpenExercise.bind(this);
 
-    const userExercises = this.props.firebase.db.filter(
-      item => item.Person.uid === this.props.firebase.user.uid
-    );
-
     this.state = {
       exerciseList: exercises,
       selectedExerciseName: null,
       selectedExercises: [],
       selectedTab: 0,
-      userExercises,
+      userExercises: this.props.firebase.record,
       addExerciseOpen: false
     };
   }
@@ -119,33 +112,11 @@ class GetLastWeightPage extends Component {
           )}
         </div>
 
-        <div className="item">
-          {this.state.selectedExerciseName && (
-            <div>
-              {this.state.selectedExercises.length > 0 && (
-                <Tabs
-                  className="tabs"
-                  onSelect={this.handleSelect}
-                  selectedIndex={this.state.selectedTab}
-                >
-                  <TabList>
-                    <Tab>Weight Chart</Tab>
-                    <Tab>Plots</Tab>
-                  </TabList>
-
-                  <TabPanel>
-                    <ExerciseResultsTable
-                      allCurrentExercises={this.state.selectedExercises}
-                    />
-                  </TabPanel>
-                  <TabPanel>
-                    <Chart exercise={this.state.selectedExercises} />
-                  </TabPanel>
-                </Tabs>
-              )}
-            </div>
-          )}
-        </div>
+        {this.state.selectedExerciseName && !this.state.addExerciseOpen && (
+          <ExerciseResultsTable
+            selectedExerciseName={this.state.selectedExerciseName}
+          />
+        )}
         <Drawer
           anchor="top"
           open={this.state.addExerciseOpen}

@@ -7,18 +7,14 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
-import "./Profile.css";
+import "./Records.css";
 
-class Profile extends Component {
+class Records extends Component {
   constructor(props) {
     super(props);
 
-    const currentEntries = props.firebase.db.filter(
-      item => item.Person.uid === this.props.firebase.user.uid
-    );
-
     let maxes = {};
-    currentEntries.forEach(item => {
+    this.props.firebase.record.forEach(item => {
       const max = Math.max(...item.LastWeight.map(item => Number(item.Weight)));
       if (!maxes[item.Exercise]) {
         maxes[item.Exercise] = { exercise: item.Exercise, weight: max };
@@ -33,8 +29,8 @@ class Profile extends Component {
 
   render() {
     return (
-      <div className="profile">
-        {this.state.maxes && (
+      <div>
+        {this.state.maxes && this.props.firebase.record.length > 0 && (
           <Table>
             <TableHead>
               <TableRow>
@@ -44,19 +40,26 @@ class Profile extends Component {
               </TableRow>
             </TableHead>
             <TableBody className="table-body">
-              {Object.keys(this.state.maxes).map((row, index) => {
-                return (
-                  <TableRow key={index}>
-                    <TableCell>{this.state.maxes[row].exercise}</TableCell>
-                    <TableCell align="right"></TableCell>
-                    <TableCell align="right">
-                      {this.state.maxes[row].weight}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              {Object.keys(this.state.maxes)
+                .sort()
+                .map((row, index) => {
+                  return (
+                    <TableRow key={index}>
+                      <TableCell>{this.state.maxes[row].exercise}</TableCell>
+                      <TableCell align="right"></TableCell>
+                      <TableCell align="right">
+                        {this.state.maxes[row].weight}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
+        )}
+        {this.props.firebase.record.length === 0 && (
+          <div className="no-records">
+            Add some exercises to track your progress!
+          </div>
         )}
       </div>
     );
@@ -65,6 +68,6 @@ class Profile extends Component {
 
 const mapStateToProps = state => ({ ...state });
 
-export default connect(mapStateToProps, {})(Profile);
+export default connect(mapStateToProps, {})(Records);
 
-export { Profile };
+export { Records };

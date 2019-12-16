@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
@@ -16,8 +17,14 @@ class ExerciseResultsTable extends Component {
   constructor(props) {
     super(props);
     this.changeExercise = this.changeExercise.bind(this);
+    let selectedExercises = [];
+    selectedExercises = this.props.firebase.record.filter(
+      item => item.Exercise === props.selectedExerciseName
+    );
+
     this.state = {
-      selectedExerciseIndex: 0
+      selectedExerciseIndex: 0,
+      selectedExercises: selectedExercises
     };
   }
 
@@ -28,7 +35,7 @@ class ExerciseResultsTable extends Component {
   }
 
   getTotalReps = () =>
-    this.props.allCurrentExercises[
+    this.state.selectedExercises[
       this.state.selectedExerciseIndex
     ].LastWeight.reduce(
       (accumulator, currentValue) => accumulator + Number(currentValue.Reps),
@@ -36,7 +43,7 @@ class ExerciseResultsTable extends Component {
     );
 
   getTotal = () =>
-    this.props.allCurrentExercises[
+    this.state.selectedExercises[
       this.state.selectedExerciseIndex
     ].LastWeight.reduce(
       (accumulator, currentValue) =>
@@ -47,60 +54,71 @@ class ExerciseResultsTable extends Component {
   render() {
     return (
       <div>
-        <FormControl style={{ float: "right" }}>
-          <Select
-            value={this.state.selectedExerciseIndex}
-            onChange={this.changeExercise}
-            styles={{ minWidth: 80 }}
-          >
-            {this.props.allCurrentExercises.map((item, i) => (
-              <MenuItem key={i} value={i}>
-                {i + 1}
-              </MenuItem>
-            ))}
-          </Select>
-          <FormHelperText>Entries</FormHelperText>
-        </FormControl>
-        <Table className="my-table" ria-label="spanning table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Set</TableCell>
-              <TableCell align="right"></TableCell>
-              <TableCell align="right">Weight (lbs)</TableCell>
-              <TableCell align="right">Reps</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody className="table-body">
-            {this.props.allCurrentExercises[
-              this.state.selectedExerciseIndex
-            ].LastWeight.map((row, index) => {
-              return (
-                <TableRow key={index}>
-                  <TableCell>{index + 1}</TableCell>
+        {this.state.selectedExercises.length > 0 && (
+          <React.Fragment>
+            <Table className="my-table" ria-label="spanning table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Set</TableCell>
                   <TableCell align="right"></TableCell>
-                  <TableCell align="right">{row.Weight}</TableCell>
-                  <TableCell align="right">{row.Reps}</TableCell>
+                  <TableCell align="right">Weight (lbs)</TableCell>
+                  <TableCell align="right">Reps</TableCell>
                 </TableRow>
-              );
-            })}
+              </TableHead>
+              <TableBody className="table-body">
+                {this.state.selectedExercises[
+                  this.state.selectedExerciseIndex
+                ].LastWeight.map((row, index) => {
+                  return (
+                    <TableRow key={index}>
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell align="right"></TableCell>
+                      <TableCell align="right">{row.Weight}</TableCell>
+                      <TableCell align="right">{row.Reps}</TableCell>
+                    </TableRow>
+                  );
+                })}
 
-            <TableRow>
-              <TableCell rowSpan={2} />
-              <TableCell>Totals</TableCell>
-              <TableCell align="right">{this.getTotal()}</TableCell>
-              <TableCell align="right">{this.getTotalReps()}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Average Set Weight</TableCell>
-              <TableCell align="right">
-                {(this.getTotal() / this.getTotalReps()).toFixed(0)}
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+                <TableRow>
+                  <TableCell rowSpan={2} />
+                  <TableCell>Totals</TableCell>
+                  <TableCell align="right">{this.getTotal()}</TableCell>
+                  <TableCell align="right">{this.getTotalReps()}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Average Set Weight</TableCell>
+                  <TableCell align="right">
+                    {(this.getTotal() / this.getTotalReps()).toFixed(0)}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+            <FormControl style={{ minWidth: "5em" }}>
+              <Select
+                value={this.state.selectedExerciseIndex}
+                onChange={this.changeExercise}
+              >
+                {this.props.firebase.record
+                  .filter(
+                    item => item.Exercise === this.props.selectedExerciseName
+                  )
+                  .map((item, i) => (
+                    <MenuItem key={i} value={i}>
+                      {i + 1}
+                    </MenuItem>
+                  ))}
+              </Select>
+              <FormHelperText>Entries</FormHelperText>
+            </FormControl>
+          </React.Fragment>
+        )}
       </div>
     );
   }
 }
 
-export default ExerciseResultsTable;
+const mapStateToProps = state => ({ ...state });
+
+export default connect(mapStateToProps, {})(ExerciseResultsTable);
+
+export { ExerciseResultsTable };

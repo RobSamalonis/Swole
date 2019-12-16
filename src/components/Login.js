@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 import {
   createAccount,
+  initializeFirebase,
   signin,
   signout,
   verifyUser
@@ -209,6 +210,7 @@ const mapStateToProps = state => ({ ...state });
 
 export default connect(mapStateToProps, {
   createAccount,
+  initializeFirebase,
   signin,
   signout,
   verifyUser
