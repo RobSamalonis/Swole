@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { addExercise } from "../actions/firebase.action";
 
 import Button from "@material-ui/core/Button";
-import Fade from "@material-ui/core/Fade";
+import Slide from "@material-ui/core/Slide";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 
@@ -79,8 +79,9 @@ class AddNewExercise extends Component {
     return (
       <div className="add-new-exercise">
         <form>
+          <h2>Track your workout</h2>
           {this.state.sets.map((x, y) => (
-            <Fade direction="right" in={true} key={y}>
+            <Slide direction="right" in={true} key={y}>
               <div className="set-item">
                 <div>
                   Set #{y + 1}
@@ -112,7 +113,7 @@ class AddNewExercise extends Component {
                 />
                 <hr />
               </div>
-            </Fade>
+            </Slide>
           ))}
           <Grid className="grid" container>
             <Grid item xs={12}>

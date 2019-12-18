@@ -35,3 +35,11 @@
   max-height: 60%;
   width: 55%;
 }
+
+.parent {
+  display: flex;
+  min-height: 100vh;
+}
+.child {
+  margin: auto;
+}

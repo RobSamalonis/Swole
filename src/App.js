@@ -11,7 +11,8 @@ import { changeRoute } from "./actions/router.action";
 import { initializeFirebase } from "./actions/firebase.action";
 
 import Chart from "./components/Chart.js";
-import LinearProgress from "@material-ui/core/LinearProgress";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 import Fade from "@material-ui/core/Fade";
 import Grid from "@material-ui/core/Grid";
 
@@ -21,7 +22,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {this.props.firebase.isFetching && <LinearProgress />}
+        {this.props.firebase.isFetching && (
+          <div className="parent">
+            <CircularProgress color="secondary" className="child" />
+          </div>
+        )}
         <Login />
         {this.props.firebase.user && (
           <Fade in={!!this.props.firebase.user}>
