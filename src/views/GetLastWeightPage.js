@@ -22,44 +22,26 @@ class GetLastWeightPage extends Component {
     super(props);
 
     this.changeExercise = this.changeExercise.bind(this);
-    this.getExercises = this.getExercises.bind(this);
+    this.handleExerciseSelect = this.handleExerciseSelect.bind(this);
     this.handleOpenExercise = this.handleOpenExercise.bind(this);
 
     this.state = {
       exerciseList: exercises,
       selectedExerciseName: null,
       selectedExercises: [],
-      selectedTab: 0,
       userExercises: this.props.firebase.record,
       addExerciseOpen: false
     };
   }
 
-  getUserExercises = () =>
-    this.props.firebase.db.filter(
-      item => item.Person.uid === this.props.firebase.user.uid
-    );
-
   changeExercise = exercise => {
     this.setState({
-      selectedExerciseName: exercise,
-      selectedTab: 0
+      selectedExerciseName: exercise
     });
   };
 
-  handleSelect = index => {
-    this.props.resetUpdates();
+  handleExerciseSelect = event => {
     this.setState({
-      selectedTab: index
-    });
-  };
-
-  getExercises = event => {
-    const selectedExercises = this.state.userExercises.filter(
-      item => item.Exercise === event.target.value
-    );
-    this.setState({
-      selectedExercises,
       selectedExerciseName: event.target.value
     });
   };
@@ -85,7 +67,7 @@ class GetLastWeightPage extends Component {
               float: "left",
               marginBottom: "1em"
             }}
-            onSelect={this.getExercises}
+            onSelect={this.handleExerciseSelect}
             renderInput={params => (
               <TextField
                 {...params}
@@ -112,11 +94,12 @@ class GetLastWeightPage extends Component {
           )}
         </div>
 
-        {this.state.selectedExerciseName && !this.state.addExerciseOpen && (
-          <ExerciseResultsTable
-            selectedExerciseName={this.state.selectedExerciseName}
-          />
-        )}
+        {this.state.addExerciseOpen === false &&
+          this.state.selectedExerciseName && (
+            <ExerciseResultsTable
+              selectedExerciseName={this.state.selectedExerciseName}
+            />
+          )}
         <Drawer
           anchor="top"
           open={this.state.addExerciseOpen}

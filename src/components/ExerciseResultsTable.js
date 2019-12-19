@@ -17,14 +17,9 @@ class ExerciseResultsTable extends Component {
   constructor(props) {
     super(props);
     this.changeExercise = this.changeExercise.bind(this);
-    let selectedExercises = [];
-    selectedExercises = this.props.firebase.record.filter(
-      item => item.Exercise === props.selectedExerciseName
-    );
 
     this.state = {
-      selectedExerciseIndex: 0,
-      selectedExercises: selectedExercises
+      selectedExerciseIndex: 0
     };
   }
 
@@ -35,26 +30,28 @@ class ExerciseResultsTable extends Component {
   }
 
   getTotalReps = () =>
-    this.state.selectedExercises[
-      this.state.selectedExerciseIndex
-    ].LastWeight.reduce(
-      (accumulator, currentValue) => accumulator + Number(currentValue.Reps),
-      0
-    );
+    this.props.firebase.record
+      .filter(item => item.Exercise === this.props.selectedExerciseName)
+      [this.state.selectedExerciseIndex].LastWeight.reduce(
+        (accumulator, currentValue) => accumulator + Number(currentValue.Reps),
+        0
+      );
 
   getTotal = () =>
-    this.state.selectedExercises[
-      this.state.selectedExerciseIndex
-    ].LastWeight.reduce(
-      (accumulator, currentValue) =>
-        accumulator + Number(currentValue.Weight) * Number(currentValue.Reps),
-      0
-    );
+    this.props.firebase.record
+      .filter(item => item.Exercise === this.props.selectedExerciseName)
+      [this.state.selectedExerciseIndex].LastWeight.reduce(
+        (accumulator, currentValue) =>
+          accumulator + Number(currentValue.Weight) * Number(currentValue.Reps),
+        0
+      );
 
   render() {
     return (
       <div>
-        {this.state.selectedExercises.length > 0 && (
+        {this.props.firebase.record.filter(
+          item => item.Exercise === this.props.selectedExerciseName
+        ).length > 0 && (
           <React.Fragment>
             <Table className="my-table" ria-label="spanning table">
               <TableHead>
@@ -66,18 +63,22 @@ class ExerciseResultsTable extends Component {
                 </TableRow>
               </TableHead>
               <TableBody className="table-body">
-                {this.state.selectedExercises[
-                  this.state.selectedExerciseIndex
-                ].LastWeight.map((row, index) => {
-                  return (
-                    <TableRow key={index}>
-                      <TableCell>{index + 1}</TableCell>
-                      <TableCell align="right"></TableCell>
-                      <TableCell align="right">{row.Weight}</TableCell>
-                      <TableCell align="right">{row.Reps}</TableCell>
-                    </TableRow>
-                  );
-                })}
+                {this.props.firebase.record
+                  .filter(
+                    item => item.Exercise === this.props.selectedExerciseName
+                  )
+                  [this.state.selectedExerciseIndex].LastWeight.map(
+                    (row, index) => {
+                      return (
+                        <TableRow key={index}>
+                          <TableCell>{index + 1}</TableCell>
+                          <TableCell align="right"></TableCell>
+                          <TableCell align="right">{row.Weight}</TableCell>
+                          <TableCell align="right">{row.Reps}</TableCell>
+                        </TableRow>
+                      );
+                    }
+                  )}
 
                 <TableRow>
                   <TableCell rowSpan={2} />
