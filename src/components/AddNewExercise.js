@@ -70,7 +70,7 @@ class AddNewExercise extends Component {
           ...this.props.firebase.record
         ],
         this.props.firebase.user,
-        this.props.handleClose()
+        this.props.handleClose("success")
       );
     }
   }

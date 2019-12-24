@@ -50,9 +50,9 @@ class GetLastWeightPage extends Component {
     this.setState({ addExerciseOpen: true });
   };
 
-  handleCloseExercise = () => {
+  handleCloseExercise = type => {
     this.setState({ addExerciseOpen: false });
-    this.props.openSnack();
+    if (type === "success") this.props.openSnack();
   };
 
   render() {
