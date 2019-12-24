@@ -18,10 +18,12 @@ import {
   RESET_UPDATES,
   REQUEST_VERIFY_USER,
   VERIFY_USER_SUCCESS,
-  VERIFY_USER_NOONE_LOGGED_IN
+  VERIFY_USER_NOONE_LOGGED_IN,
+  SNACK_OPEN,
+  SNACK_CLOSE
 } from "../actions/types";
 
-const initialState = { isFetching: false, addExerciseSuccess: "initial" };
+const initialState = { isFetching: false, snack: false };
 
 export default function articles(state = initialState, action) {
   switch (action.type) {
@@ -143,6 +145,18 @@ export default function articles(state = initialState, action) {
         isFetching: false,
         user: null,
         verifyingUser: false
+      });
+    }
+    case SNACK_OPEN: {
+      return Object.assign({}, state, {
+        isFetching: false,
+        snack: true
+      });
+    }
+    case SNACK_CLOSE: {
+      return Object.assign({}, state, {
+        isFetching: false,
+        snack: false
       });
     }
     default:

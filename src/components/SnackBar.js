@@ -88,17 +88,8 @@ const useStyles2 = makeStyles(theme => ({
   }
 }));
 
-export default function CustomizedSnackbars({ type }) {
+export default function CustomizedSnackbars({ close, type, snack }) {
   const classes = useStyles2();
-  const [open, setOpen] = React.useState(true);
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
 
   return (
     <div>
@@ -107,18 +98,19 @@ export default function CustomizedSnackbars({ type }) {
           vertical: "bottom",
           horizontal: "left"
         }}
-        open={open}
+        open={snack}
         autoHideDuration={3000}
-        onClose={handleClose}
+        onClose={close}
       >
         {type ? (
           <MySnackbarContentWrapper
-            onClose={handleClose}
+            onClose={close}
             variant="success"
             message="Exercise Added!"
           />
         ) : (
           <MySnackbarContentWrapper
+            onClose={close}
             variant="error"
             className={classes.margin}
             message="Error, please try again."

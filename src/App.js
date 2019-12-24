@@ -8,7 +8,7 @@ import Records from "./components/Records";
 import CustomizedSnackbars from "./components/SnackBar";
 import GetLastWeightPage from "./views/GetLastWeightPage";
 import { changeRoute } from "./actions/router.action";
-import { initializeFirebase } from "./actions/firebase.action";
+import { closeSnack } from "./actions/firebase.action";
 
 import Chart from "./components/Chart.js";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -45,9 +45,12 @@ class App extends Component {
                   )}
                 </div>
               </Grid>
-              {this.props.firebase.addExerciseSuccess !== "initial" && (
+
+              {this.props.firebase.snack && (
                 <CustomizedSnackbars
-                  type={this.props.firebase.addExerciseSuccess}
+                  close={this.props.closeSnack}
+                  type="success"
+                  snack={this.props.firebase.snack}
                 />
               )}
             </Grid>
@@ -60,8 +63,8 @@ class App extends Component {
 const mapStateToProps = state => ({ ...state });
 
 export default connect(mapStateToProps, {
-  initializeFirebase,
-  changeRoute
+  changeRoute,
+  closeSnack
 })(App);
 
 export { App };

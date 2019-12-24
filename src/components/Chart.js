@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import { Line } from "react-chartjs-2";
 
@@ -7,7 +8,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 import "./Chart.css";
 
-export default class LinePlot extends Component {
+class LinePlot extends Component {
   getData = (myLabels, myData, myTitle) => {
     return {
       labels: myLabels,
@@ -37,26 +38,27 @@ export default class LinePlot extends Component {
     };
   };
 
-  constructor(props) {
-    super(props);
+  resetGraphs = props => {
+    const selected = this.props.firebase.record.filter(
+      item => item.Exercise === props.selectedExerciseName
+    );
+    const arr = selected.map((item, i) => i + 1);
 
-    const arr = props.exercise.map((item, i) => i + 1);
-
-    const totalWeights = props.exercise.map(item =>
+    const totalWeights = selected.map(item =>
       item.LastWeight.map(item => item.Weight * item.Reps).reduce(
         (acc, currentValue) => acc + currentValue,
         0
       )
     );
     const averageWeights = totalWeights.map((item, i) => {
-      const totalSets = props.exercise[i].LastWeight.reduce(
+      const totalSets = selected[i].LastWeight.reduce(
         (acc, currentValue) => acc + Number(currentValue.Reps),
         0
       );
       return (item / totalSets).toFixed(0);
     });
 
-    const topWeights = props.exercise.map(item =>
+    const topWeights = selected.map(item =>
       Math.max(...item.LastWeight.map(item => item.Weight))
     );
 
@@ -75,65 +77,92 @@ export default class LinePlot extends Component {
 
     this.changeChartType = this.changeChartType.bind(this);
 
-    this.state = {
-      exercise: props.exercise,
+    return {
       totalWeightData,
       topWeightData,
       averageWeightData,
       key: Math.random(),
       chartType: "Average Set Weights"
     };
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = this.resetGraphs(props);
   }
+
+  componentWillReceiveProps(props) {
+    this.setState(this.resetGraphs(props));
+  }
+
   changeChartType = event => {
     this.setState({
       chartType: event.target.value
     });
   };
+
   render() {
     return (
       <React.Fragment>
-        <Select
-          value={this.state.chartType}
-          onChange={this.changeChartType}
-          style={{ backgroundColor: "white", float: "right" }}
-        >
-          <MenuItem key={"Average Set Weights"} value={"Average Set Weights"}>
-            Average Set Weights
-          </MenuItem>
-          <MenuItem key={"Top Set Weights"} value={"Top Set Weights"}>
-            Top Set Weights
-          </MenuItem>
-          <MenuItem key={"Volume"} value={"Volume"}>
-            Volume
-          </MenuItem>
-        </Select>
-        <div className="charts">
-          {this.state.chartType === "Volume" && (
-            <Line
-              ref="chart"
-              data={this.state.totalWeightData}
-              redraw
-              key={this.state.key}
-            />
-          )}
-          {this.state.chartType === "Top Set Weights" && (
-            <Line
-              ref="chart"
-              data={this.state.topWeightData}
-              redraw
-              key={this.state.key + 100}
-            />
-          )}
-          {this.state.chartType === "Average Set Weights" && (
-            <Line
-              ref="chart"
-              data={this.state.averageWeightData}
-              redraw
-              key={this.state.key + 200}
-            />
-          )}
-        </div>
+        {this.props.firebase.record.filter(
+          item => item.Exercise === this.props.selectedExerciseName
+        ).length > 1 && (
+          <React.Fragment>
+            <h2>Graphs</h2>
+
+            <div className="charts">
+              {this.state.chartType === "Volume" && (
+                <Line
+                  ref="chart"
+                  data={this.state.totalWeightData}
+                  redraw
+                  key={this.state.key}
+                />
+              )}
+              {this.state.chartType === "Top Set Weights" && (
+                <Line
+                  ref="chart"
+                  data={this.state.topWeightData}
+                  redraw
+                  key={this.state.key + 100}
+                />
+              )}
+              {this.state.chartType === "Average Set Weights" && (
+                <Line
+                  ref="chart"
+                  data={this.state.averageWeightData}
+                  redraw
+                  key={this.state.key + 200}
+                />
+              )}
+            </div>
+            <Select
+              value={this.state.chartType}
+              onChange={this.changeChartType}
+              style={{ backgroundColor: "white", float: "right" }}
+            >
+              <MenuItem
+                key={"Average Set Weights"}
+                value={"Average Set Weights"}
+              >
+                Average Set Weights
+              </MenuItem>
+              <MenuItem key={"Top Set Weights"} value={"Top Set Weights"}>
+                Top Set Weights
+              </MenuItem>
+              <MenuItem key={"Volume"} value={"Volume"}>
+                Volume
+              </MenuItem>
+            </Select>
+          </React.Fragment>
+        )}
       </React.Fragment>
     );
   }
 }
+
+const mapStateToProps = state => ({ ...state });
+
+export default connect(mapStateToProps, {})(LinePlot);
+
+export { LinePlot };

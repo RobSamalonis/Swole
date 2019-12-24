@@ -1,8 +1,5 @@
 import firebase from "firebase";
 import {
-  REQUEST_FIREBASE,
-  RECIEVED_FIREBASE,
-  RECIEVED_FIREBASE_ERROR,
   CLEAR_FIREBASE,
   ADD_EXERCISE,
   ADD_EXERCISE_SUCCESS,
@@ -17,10 +14,12 @@ import {
   RESET_UPDATES,
   REQUEST_VERIFY_USER,
   VERIFY_USER_SUCCESS,
-  VERIFY_USER_NOONE_LOGGED_IN
+  VERIFY_USER_NOONE_LOGGED_IN,
+  SNACK_CLOSE,
+  SNACK_OPEN
 } from "./types";
 
-var config = {
+const config = {
   apiKey: process.env.REACT_APP_FIREBASE_ID,
   authDomain: "swole-1190b.firebaseapp.com",
   databaseURL: "https://swole-1190b.firebaseio.com",
@@ -48,22 +47,6 @@ const initializeFirebase = (dispatch, user) => {
     });
 
   return workouts;
-};
-
-const fetchFirebase = () => {
-  return dispatch => {
-    dispatch({ type: REQUEST_FIREBASE });
-    firebase
-      .database()
-      .ref("/")
-      .once("value")
-      .then(snapshot => {
-        dispatch({ type: RECIEVED_FIREBASE, payload: snapshot.val() });
-      })
-      .catch(error => {
-        dispatch({ type: RECIEVED_FIREBASE_ERROR });
-      });
-  };
 };
 
 const clearFirebase = () => {
@@ -148,14 +131,27 @@ const resetUpdates = () => {
   };
 };
 
+const openSnack = () => {
+  return dispatch => {
+    dispatch({ type: SNACK_OPEN });
+  };
+};
+
+const closeSnack = () => {
+  return dispatch => {
+    dispatch({ type: SNACK_CLOSE });
+  };
+};
+
 export {
   initializeFirebase,
-  fetchFirebase,
   clearFirebase,
   addExercise,
   createAccount,
   signin,
   signout,
   resetUpdates,
-  verifyUser
+  verifyUser,
+  closeSnack,
+  openSnack
 };

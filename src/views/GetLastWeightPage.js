@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import AddNewExercise from "../components/AddNewExercise";
+import Chart from "../components/Chart.js";
 import ExerciseResultsTable from "../components/ExerciseResultsTable";
 
-import { fetchFirebase, resetUpdates } from "../actions/firebase.action";
+import { resetUpdates, openSnack } from "../actions/firebase.action";
 
 import AddIcon from "@material-ui/icons/Add";
 import Drawer from "@material-ui/core/Drawer";
@@ -28,7 +29,6 @@ class GetLastWeightPage extends Component {
     this.state = {
       exerciseList: exercises,
       selectedExerciseName: null,
-      selectedExercises: [],
       userExercises: this.props.firebase.record,
       addExerciseOpen: false
     };
@@ -52,65 +52,65 @@ class GetLastWeightPage extends Component {
 
   handleCloseExercise = () => {
     this.setState({ addExerciseOpen: false });
+    this.props.openSnack();
   };
 
   render() {
     return (
       <div className="lastWeightPage">
-        <div className="item">
-          <Autocomplete
-            options={this.state.exerciseList}
-            getOptionLabel={option => option}
+        <Autocomplete
+          options={this.state.exerciseList}
+          getOptionLabel={option => option}
+          style={{
+            width: 250,
+            marginLeft: ".5em",
+            float: "left",
+            marginBottom: "1em"
+          }}
+          onSelect={this.handleExerciseSelect}
+          renderInput={params => (
+            <TextField
+              {...params}
+              label="Exercises"
+              variant="outlined"
+              fullWidth
+            />
+          )}
+        />
+        {exercises.filter(item => item === this.state.selectedExerciseName)
+          .length > 0 && (
+          <Fab
+            color="primary"
+            aria-label="add"
             style={{
-              width: 250,
-              marginLeft: ".5em",
-              float: "left",
+              float: "right",
+              backgroundColor: "#BB86FC",
               marginBottom: "1em"
             }}
-            onSelect={this.handleExerciseSelect}
-            renderInput={params => (
-              <TextField
-                {...params}
-                label="Exercises"
-                variant="outlined"
-                fullWidth
-              />
-            )}
-          />
-          {exercises.filter(item => item === this.state.selectedExerciseName)
-            .length > 0 && (
-            <Fab
-              color="primary"
-              aria-label="add"
-              style={{
-                float: "right",
-                backgroundColor: "#BB86FC",
-                marginBottom: "1em"
-              }}
-              onClick={this.handleOpenExercise}
-            >
-              <AddIcon />
-            </Fab>
-          )}
-        </div>
+            onClick={this.handleOpenExercise}
+          >
+            <AddIcon />
+          </Fab>
+        )}
 
         {this.state.addExerciseOpen === false &&
           this.state.selectedExerciseName && (
-            <ExerciseResultsTable
-              selectedExerciseName={this.state.selectedExerciseName}
-            />
+            <React.Fragment>
+              <ExerciseResultsTable
+                selectedExerciseName={this.state.selectedExerciseName}
+              />
+              <Chart selectedExerciseName={this.state.selectedExerciseName} />
+            </React.Fragment>
           )}
         <Drawer
           anchor="top"
           open={this.state.addExerciseOpen}
           onClose={this.handleCloseExercise}
         >
-          <div className="add-exercise">
-            <AddNewExercise
-              exercise={this.state.selectedExerciseName}
-              handleClose={this.handleCloseExercise}
-            />
-          </div>
+          <AddNewExercise
+            exercise={this.state.selectedExerciseName}
+            handleClose={this.handleCloseExercise}
+          />
         </Drawer>
       </div>
     );
@@ -119,7 +119,7 @@ class GetLastWeightPage extends Component {
 
 const mapStateToProps = state => ({ ...state });
 
-export default connect(mapStateToProps, { fetchFirebase, resetUpdates })(
+export default connect(mapStateToProps, { resetUpdates, openSnack })(
   GetLastWeightPage
 );
 
