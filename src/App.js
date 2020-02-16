@@ -28,34 +28,33 @@ class App extends Component {
           </div>
         )}
         <Login />
-        {this.props.firebase.user && (
-          <Fade in={!!this.props.firebase.user}>
-            <Grid className="grid" container>
-              <Grid className="header" item xs={12}>
-                <Header />
-              </Grid>
 
-              <Grid className="main" style={{ padding: "1em" }} item xs={12}>
-                <div className="menu-main">
-                  {(this.props.router.route === "Home" ||
-                    !this.props.router.route) && <GetLastWeightPage />}
-                  {this.props.router.route === "Records" && <Records />}
-                  {this.props.router.route === "Chart" && (
-                    <Chart exercise={this.state.selectedExercises} />
-                  )}
-                </div>
-              </Grid>
-
-              {this.props.firebase.snack && (
-                <CustomizedSnackbars
-                  close={this.props.closeSnack}
-                  type="success"
-                  snack={this.props.firebase.snack}
-                />
-              )}
+        <Fade in={!!this.props.firebase.user}>
+          <Grid className="grid" container>
+            <Grid className="header" item xs={12}>
+              <Header />
             </Grid>
-          </Fade>
-        )}
+
+            <Grid className="main" style={{ padding: "1em" }} item xs={12}>
+              <div className="menu-main">
+                {(this.props.router.route === "Home" ||
+                  !this.props.router.route) && <GetLastWeightPage />}
+                {this.props.router.route === "Records" && <Records />}
+                {this.props.router.route === "Chart" && (
+                  <Chart exercise={this.state.selectedExercises} />
+                )}
+              </div>
+            </Grid>
+
+            {this.props.firebase.snack && (
+              <CustomizedSnackbars
+                close={this.props.closeSnack}
+                type="success"
+                snack={this.props.firebase.snack}
+              />
+            )}
+          </Grid>
+        </Fade>
       </div>
     );
   }
